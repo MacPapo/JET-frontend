@@ -1,17 +1,20 @@
 FROM node:18.15.0-slim
 LABEL MAINTAINER="Jacopo Costantini <jacopocostantini32@gmail.com>"
 
-# Install angular, angular-cli, material with npm
-RUN npm install -g @angular/cli @angular/material @angular/cdk @angular/animations
+# Working directory
+WORKDIR /usr/src/app
 
-# Copy the project files to the container
-ADD . /app
+# Copy package.json and package-lock.json
+COPY package*.json ./
 
-# Set the working directory
-WORKDIR /app
+# Copy source code
+COPY . .
+
+# Install dependencies
+RUN npm install
 
 # expose the port
 EXPOSE 4200
 
-# Run the app
-CMD ng serve --verbose --watch --host 0.0.0.0
+# Start the server using nodemon
+CMD [ "npm", "run", "start" ]
