@@ -1,0 +1,6 @@
+#+title: JustEaTime
+#+author: Jacopo Costantini, Dawei Zhou, Pietro Visconti
+
+* App structure
+
+- fill me...

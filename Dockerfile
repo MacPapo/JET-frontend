@@ -1,20 +1,22 @@
 FROM node:18.15.0-slim
 LABEL MAINTAINER="Jacopo Costantini <jacopocostantini32@gmail.com>"
 
-# Working directory
-WORKDIR /usr/src/app
-
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Copy source code
-COPY . .
-
-# Install dependencies
-RUN npm install
-
 # expose the port
 EXPOSE 4200
 
-# Start the server using nodemon
+# Working directory
+WORKDIR /node
+
+COPY package*.json ./
+
+RUN chown -R node:node .
+USER node
+
+RUN npm install && npm cache clean --force
+
+WORKDIR /node/app
+
+COPY --chown=node:node . .
+
+# Start the server using ng
 CMD [ "npm", "run", "start" ]
