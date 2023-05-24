@@ -7,6 +7,7 @@ import { FormControl, Validators } from '@angular/forms';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
+  hide = true;
   email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', Validators.required);
   firstName = new FormControl('', Validators.required);
