@@ -5,27 +5,32 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
+// Common Components
 import { NavbarComponent } from './common/components/navbar/navbar.component';
+
+// Custom Components
+import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+
+// Custom Modules
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
+    LoginComponent,
     RegisterComponent,
     HomeComponent,
   ],
   imports: [
-    MatToolbarModule,
-    MatButtonModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
