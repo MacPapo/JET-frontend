@@ -51,17 +51,17 @@
                 <mat-form-field appearance="outline">
                     <mat-label>Category</mat-label>
                     <mat-select [formControl]="category" required>
-                        <mat-option value="waiter">Waiter</mat-option>
-                        <mat-option value="cooker">Cooker</mat-option>
-                        <mat-option value="bartender">Bartender</mat-option>
-                        <mat-option value="cashier">Cashier</mat-option>
+                        <mat-option value="Waiter">Waiter</mat-option>
+                        <mat-option value="Cooker">Cooker</mat-option>
+                        <mat-option value="Bartender">Bartender</mat-option>
+                        <mat-option value="Cashier">Cashier</mat-option>
                     </mat-select>
                     <mat-error *ngIf="category.invalid">Category is required</mat-error>
                 </mat-form-field>
             </div>
 
             <div class="form-button">
-                <button mat-raised-button color="primary">Sign Up</button>
+                <button mat-raised-button color="primary" (click)="register()">Sign Up</button>
             </div>
         </form>
     </mat-card-content>
