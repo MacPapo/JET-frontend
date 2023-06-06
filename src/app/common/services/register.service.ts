@@ -7,12 +7,12 @@ import { Observable } from 'rxjs';
 })
 export class RegisterService {
 
-    private apiUrl = '/api';
-    
-    constructor(private http: HttpClient) { }
+  private apiUrl = '/api';
 
-    register(email: string, password: string, firstName: string, lastName: string, category: string): Observable<any> {
-        const registerUrl =  `${this.apiUrl}/auth/register`;
-        return this.http.post(registerUrl, { firstName, lastName, email, password, userCategory: category });
-    }
+  constructor(private http: HttpClient) {}
+
+  register(email: string, password: string, firstName: string, lastName: string, category: string): Observable<any> {
+    const registerUrl = `${this.apiUrl}/auth/register`;
+    return this.http.post(registerUrl, { firstName, lastName, email, password, category });
+  }
 }
