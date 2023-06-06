@@ -18,6 +18,7 @@ export class JwtService {
       tap((response: any) => {
         const token = response.token;
         this.saveToken(token);
+        this.saveUser(response.userEmail, response.category);
       })
     );
   }
@@ -37,13 +38,32 @@ export class JwtService {
     return localStorage.getItem('token');
   }
 
+  getUserEmail(): string | null {
+    return localStorage.getItem("email");
+  }
+
+  getUserCategory(): string | null {
+    return localStorage.getItem("category");
+  }
+
   private saveToken(token: string): void {
     localStorage.setItem('token', token);
+  }
+
+  private saveUser(email: string, category: string): void {
+    localStorage.setItem("email", email);
+    localStorage.setItem("category", category);
   }
 
   private clearToken(): void {
     localStorage.removeItem('token');
   }
+
+  private clearUser(): void {
+    localStorage.removeItem("email");
+    localStorage.removeItem("category");
+  }
+
 
   private isTokenExpired(token: string): boolean {
     // Implement your logic to check if the token is expired
