@@ -1,1 +1,5 @@
-<p>home works!</p>
+<p *ngIf="category == null">home works!</p>
+<app-waiter-home *ngIf="category == 'Waiter'"></app-waiter-home>
+<app-cooker-home *ngIf="category == 'Cooker'"></app-cooker-home>
+<app-bartender-home *ngIf="category == 'Bartender'"></app-bartender-home>
+<app-cashier-home *ngIf="category == 'Cashier'"></app-cashier-home>
