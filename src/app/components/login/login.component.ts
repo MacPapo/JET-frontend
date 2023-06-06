@@ -21,7 +21,6 @@ export class LoginComponent {
     this.jwtService.login(this.email.value!, this.password.value!).subscribe(
       (response: any) => {
         console.log('Login successful');
-        // Redirect to the desired page or perform any other necessary actions
         this.router.navigate(['/']);
       },
       (error: any) => {
