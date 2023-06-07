@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { NavbarService } from './navbar.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +11,14 @@ export class JwtService {
 
   private apiUrl = '/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private navbarService: NavbarService) {}
 
   login(email: string, password: string): Observable<any> {
     const loginUrl = `${this.apiUrl}/auth/login`;
     return this.http.post(loginUrl, { email, password }).pipe(
       tap((response: any) => {
         const token = response.token;
+        this.navbarService.setLogged(true);
         this.saveToken(token);
         this.saveUser(response.userEmail, response.category);
       })
@@ -25,7 +27,8 @@ export class JwtService {
 
   logout(): void {
     this.clearToken();
-    // Perform any other necessary cleanup tasks
+    this.clearUser();
+    this.navbarService.setLogged(false);
   }
 
   isAuthenticated(): boolean {

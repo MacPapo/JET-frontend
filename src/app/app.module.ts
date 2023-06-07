@@ -20,6 +20,7 @@ import { WaiterHomeComponent } from './components/waiter/waiter-home/waiter-home
 import { CookerHomeComponent } from './components/cooker/cooker-home/cooker-home.component';
 import { BartenderHomeComponent } from './components/bartender/bartender-home/bartender-home.component';
 import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-home.component';
+import { LogoutComponent } from './components/logout/logout.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-
     CookerHomeComponent,
     BartenderHomeComponent,
     CashierHomeComponent,
+    LogoutComponent,
   ],
   imports: [
     BrowserModule,
