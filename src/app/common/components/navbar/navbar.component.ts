@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { NavbarService } from '../../services/navbar.service';
 
 @Component({
   selector: 'app-navbar',
@@ -6,5 +8,16 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  isLogged = false;
+  private subscription: Subscription;
 
+  constructor(private NavbarService: NavbarService) {
+    this.subscription = NavbarService.getLogged().subscribe(value => {
+      this.isLogged = value;
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 }

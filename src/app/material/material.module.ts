@@ -11,6 +11,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -26,6 +27,7 @@ import { MatSelectModule } from '@angular/material/select';
     NgIf,
     FormsModule,
     ReactiveFormsModule,
+    MatSlideToggleModule,
   ],
   exports: [
     MatToolbarModule,
@@ -38,6 +40,7 @@ import { MatSelectModule } from '@angular/material/select';
     NgIf,
     FormsModule,
     ReactiveFormsModule,
+    MatSlideToggleModule,
   ]
 })
 export class MaterialModule {}
