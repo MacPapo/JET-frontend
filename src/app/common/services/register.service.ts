@@ -11,7 +11,8 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  register(email: string, password: string, firstName: string, lastName: string, category: string): Observable<any> {
+  //MODIFY BACKEND TO ACCEPT isAdmin
+  register(email: string, password: string, firstName: string, lastName: string, category: string, isAdmin: Boolean): Observable<any> {
     const registerUrl = `${this.apiUrl}/auth/register`;
     return this.http.post(registerUrl, { firstName, lastName, email, password, category });
   }

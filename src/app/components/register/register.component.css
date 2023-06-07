@@ -34,3 +34,9 @@ mat-card-content {
 .password-field {
   width: 92%;
 }
+
+.admin {
+  margin-top: 16px;
+  margin-bottom: 16px;
+  margin-left: 8px;
+}
