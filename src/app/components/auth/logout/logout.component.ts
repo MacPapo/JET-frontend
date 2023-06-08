@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { JwtService } from '../../common/services/jwt.service';
+import { JwtService } from '../../../services/auth/jwt.service';
 import { Router } from '@angular/router';
 
 @Component({
