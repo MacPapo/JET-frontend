@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { NavbarService } from '../../services/navbar.service';
+import { NavbarService } from '../../services/layout/navbar.service';
 
 @Component({
   selector: 'app-navbar',
