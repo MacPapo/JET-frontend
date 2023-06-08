@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { LogoutComponent } from './components/logout/logout.component'
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { LogoutComponent } from './components/auth/logout/logout.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 import { WaiterHomeComponent } from './components/waiter/waiter-home/waiter-home.component';
 import { CookerHomeComponent } from './components/cooker/cooker-home/cooker-home.component';
 import { BartenderHomeComponent } from './components/bartender/bartender-home/bartender-home.component';

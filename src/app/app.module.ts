@@ -7,11 +7,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 
 // Common Components
-import { NavbarComponent } from './common/components/navbar/navbar.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
 
 // Custom Components
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { LoginComponent } from './components/auth/login/login.component';
+import { RegisterComponent } from './components/auth/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 
 // Custom Modules
@@ -20,7 +20,7 @@ import { WaiterHomeComponent } from './components/waiter/waiter-home/waiter-home
 import { CookerHomeComponent } from './components/cooker/cooker-home/cooker-home.component';
 import { BartenderHomeComponent } from './components/bartender/bartender-home/bartender-home.component';
 import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-home.component';
-import { LogoutComponent } from './components/logout/logout.component';
+import { LogoutComponent } from './components/auth/logout/logout.component';
 
 @NgModule({
   declarations: [
