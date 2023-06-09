@@ -12,6 +12,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -28,6 +29,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     FormsModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
+    MatDialogModule,
   ],
   exports: [
     MatToolbarModule,
@@ -41,6 +43,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     FormsModule,
     ReactiveFormsModule,
     MatSlideToggleModule,
+    MatDialogModule,
   ]
 })
 export class MaterialModule {}

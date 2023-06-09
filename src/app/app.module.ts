@@ -21,6 +21,7 @@ import { CookerHomeComponent } from './components/cooker/cooker-home/cooker-home
 import { BartenderHomeComponent } from './components/bartender/bartender-home/bartender-home.component';
 import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-home.component';
 import { LogoutComponent } from './components/auth/logout/logout.component';
+import { RegistrationFailedDialogComponent } from './components/auth/registration-failed-dialog/registration-failed-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { LogoutComponent } from './components/auth/logout/logout.component';
     BartenderHomeComponent,
     CashierHomeComponent,
     LogoutComponent,
+    RegistrationFailedDialogComponent,
   ],
   imports: [
     BrowserModule,
