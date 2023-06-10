@@ -22,6 +22,7 @@ import { BartenderHomeComponent } from './components/bartender/bartender-home/ba
 import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-home.component';
 import { LogoutComponent } from './components/auth/logout/logout.component';
 import { RegistrationFailedDialogComponent } from './components/auth/registration-failed-dialog/registration-failed-dialog.component';
+import { SnackbarComponent } from './components/shared/snackbar/snackbar.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { RegistrationFailedDialogComponent } from './components/auth/registratio
     CashierHomeComponent,
     LogoutComponent,
     RegistrationFailedDialogComponent,
+    SnackbarComponent,
   ],
   imports: [
     BrowserModule,

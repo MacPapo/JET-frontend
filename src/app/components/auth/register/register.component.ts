@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { RegisterService } from '../../../services/auth/register.service';
 import { RegistrationFailedDialogComponent } from '../registration-failed-dialog/registration-failed-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +22,10 @@ export class RegisterComponent {
   role = new FormControl('', Validators.required);
   isAdmin = new FormControl(false);
 
-  constructor(private registerService: RegisterService, private router: Router, private dialog: MatDialog) {}
+  constructor(private registerService: RegisterService,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar) {}
 
   ngOnInit() {}
 
@@ -31,6 +35,12 @@ export class RegisterComponent {
       enterAnimationDuration,
       exitAnimationDuration,
       data: { errorMessage }
+    });
+  }
+
+  openSnackBar(message: string, action: string, duration: number) {
+    this.snackBar.open(message, action, {
+      duration,
     });
   }
 
@@ -46,7 +56,7 @@ export class RegisterComponent {
       roles)
       .subscribe(
         (response: any) => {
-          console.log('Register successful');
+          this.openSnackBar('Sign-Up successful!', 'Close', 4000);
           this.router.navigate(['login']);
         },
         (error: any) => {
