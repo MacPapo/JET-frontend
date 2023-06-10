@@ -23,6 +23,7 @@ import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-
 import { LogoutComponent } from './components/auth/logout/logout.component';
 import { RegistrationFailedDialogComponent } from './components/auth/registration-failed-dialog/registration-failed-dialog.component';
 import { SnackbarComponent } from './components/shared/snackbar/snackbar.component';
+import { LoginFailedDialogComponent } from './components/auth/login-failed-dialog/login-failed-dialog.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { SnackbarComponent } from './components/shared/snackbar/snackbar.compone
     LogoutComponent,
     RegistrationFailedDialogComponent,
     SnackbarComponent,
+    LoginFailedDialogComponent,
   ],
   imports: [
     BrowserModule,
