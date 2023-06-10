@@ -1,8 +1,22 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { NavbarService } from '../layout/navbar.service';
+import { environment as env } from '../../../environments/environment';
+
+interface LoginResponse {
+  data: {
+    tokens: {
+      accessToken: string;
+      refreshToken: string;
+    };
+    user: {
+      _id: string;
+      roles: string[];
+    };
+  };
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,62 +25,52 @@ export class JwtService {
 
   private apiUrl = '/api';
 
-  constructor(private http: HttpClient, private navbarService: NavbarService) {}
+  private loginUrl = `${this.apiUrl}/login/basic`;
+
+  private headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'x-api-key': env.xApiKey
+  });
+
+  constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
-    const loginUrl = `${this.apiUrl}/auth/login`;
-    return this.http.post(loginUrl, { email, password }).pipe(
-      tap((response: any) => {
-        const token = response.token;
-        this.navbarService.setLogged(true);
-        this.saveToken(token);
-        this.saveUser(response.userEmail, response.category);
-      })
-    );
+    return this.http.post<LoginResponse>(this.loginUrl, { email, password }, { headers: this.headers })
+      .pipe(
+        tap(response => {
+          this.saveLoginData(response['data']['tokens']['accessToken'],
+            response['data']['tokens']['refreshToken'],
+            response['data']['user']['_id'],
+            response['data']['user']['roles']);
+        })
+      );
   }
 
   logout(): void {
-    this.clearToken();
-    this.clearUser();
-    this.navbarService.setLogged(false);
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('userId');
+    localStorage.removeItem('roles');
   }
 
-  isAuthenticated(): boolean {
-    const token = this.getToken();
-    // Check if token exists and is not expired
-    return token !== null && !this.isTokenExpired(token);
+  private saveLoginData(accessToken: string,
+    refreshToken: string,
+    userId: string,
+    roles: string[]): void {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('roles', JSON.stringify(roles));
   }
 
-  getToken(): string | null {
-    return localStorage.getItem('token');
+  private getLoginData(): any {
+    return {
+      accessToken: localStorage.getItem('accessToken'),
+      refreshToken: localStorage.getItem('refreshToken'),
+      userId: localStorage.getItem('userId'),
+      roles: JSON.parse(localStorage.getItem('roles') || '[]')
+    };
   }
-
-  getUserEmail(): string | null {
-    return localStorage.getItem("email");
-  }
-
-  getUserCategory(): string | null {
-    return localStorage.getItem("category");
-  }
-
-  private saveToken(token: string): void {
-    localStorage.setItem('token', token);
-  }
-
-  private saveUser(email: string, category: string): void {
-    localStorage.setItem("email", email);
-    localStorage.setItem("category", category);
-  }
-
-  private clearToken(): void {
-    localStorage.removeItem('token');
-  }
-
-  private clearUser(): void {
-    localStorage.removeItem("email");
-    localStorage.removeItem("category");
-  }
-
 
   private isTokenExpired(token: string): boolean {
     // Implement your logic to check if the token is expired

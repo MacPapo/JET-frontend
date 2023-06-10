@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { JwtService } from '../../../services/auth/jwt.service';
+import { NavbarService } from '../../../services/layout/navbar.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,14 +14,16 @@ export class LoginComponent {
   password = new FormControl('', Validators.required);
   hide = true;
 
-  constructor(private jwtService: JwtService, private router: Router) {}
+  constructor(private jwtService: JwtService,
+    private router: Router,
+    private navbarService: NavbarService) {}
 
   ngOnInit() {}
 
   login() {
     this.jwtService.login(this.email.value!, this.password.value!).subscribe(
       (response: any) => {
-        console.log('Login successful');
+        this.navbarService.setLogged(true);
         this.router.navigate(['/']);
       },
       (error: any) => {
