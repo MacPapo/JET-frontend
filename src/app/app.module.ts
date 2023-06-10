@@ -24,6 +24,13 @@ import { LogoutComponent } from './components/auth/logout/logout.component';
 import { RegistrationFailedDialogComponent } from './components/auth/registration-failed-dialog/registration-failed-dialog.component';
 import { SnackbarComponent } from './components/shared/snackbar/snackbar.component';
 import { LoginFailedDialogComponent } from './components/auth/login-failed-dialog/login-failed-dialog.component';
+import { ControlPanelComponent } from './components/admin/control-panel/control-panel.component';
+import { TableListComponent } from './components/table/table-list/table-list.component';
+import { TableFormComponent } from './components/table/table-form/table-form.component';
+import { FoodListComponent } from './components/food/food-list/food-list.component';
+import { FoodFormComponent } from './components/food/food-form/food-form.component';
+import { DrinkListComponent } from './components/drink/drink-list/drink-list.component';
+import { DrinkFormComponent } from './components/drink/drink-form/drink-form.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +47,13 @@ import { LoginFailedDialogComponent } from './components/auth/login-failed-dialo
     RegistrationFailedDialogComponent,
     SnackbarComponent,
     LoginFailedDialogComponent,
+    ControlPanelComponent,
+    TableListComponent,
+    TableFormComponent,
+    FoodListComponent,
+    FoodFormComponent,
+    DrinkListComponent,
+    DrinkFormComponent,
   ],
   imports: [
     BrowserModule,

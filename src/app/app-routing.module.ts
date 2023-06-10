@@ -9,6 +9,10 @@ import { WaiterHomeComponent } from './components/waiter/waiter-home/waiter-home
 import { CookerHomeComponent } from './components/cooker/cooker-home/cooker-home.component';
 import { BartenderHomeComponent } from './components/bartender/bartender-home/bartender-home.component';
 import { CashierHomeComponent } from './components/cashier/cashier-home/cashier-home.component';
+import { ControlPanelComponent } from './components/admin/control-panel/control-panel.component';
+import { FoodListComponent } from './components/food/food-list/food-list.component';
+import { DrinkListComponent } from './components/drink/drink-list/drink-list.component';
+import { TableListComponent } from './components/table/table-list/table-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +23,10 @@ const routes: Routes = [
   { path: 'cooker/home', component: CookerHomeComponent },
   { path: 'bartender/home', component: BartenderHomeComponent },
   { path: 'cashier/home', component: CashierHomeComponent },
+  { path: 'admin', component: ControlPanelComponent },
+  { path: 'admin/foods', component: FoodListComponent },
+  { path: 'admin/drinks', component: DrinkListComponent },
+  { path: 'admin/tables', component: TableListComponent },
 ];
 
 @NgModule({

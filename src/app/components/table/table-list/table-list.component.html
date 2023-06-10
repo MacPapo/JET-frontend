@@ -1,0 +1,8 @@
+<mat-card>
+    <h2>Table List</h2>
+    <mat-list>
+        <mat-list-item *ngFor="let table of tables">
+            {{ table.number }} - {{ table.seats }} - {{ table.isAvailable }}
+        </mat-list-item>
+    </mat-list>
+</mat-card>

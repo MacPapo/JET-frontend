@@ -1,0 +1,8 @@
+<mat-card>
+    <h2>Food List</h2>
+    <mat-list>
+        <mat-list-item *ngFor="let food of foods">
+            {{ food.name }} - {{ food.price }}
+        </mat-list-item>
+    </mat-list>
+</mat-card>
