@@ -1,5 +1,5 @@
-<p *ngIf="category == null">home works!</p>
-<app-waiter-home *ngIf="category == 'Waiter'"></app-waiter-home>
-<app-cooker-home *ngIf="category == 'Cooker'"></app-cooker-home>
-<app-bartender-home *ngIf="category == 'Bartender'"></app-bartender-home>
-<app-cashier-home *ngIf="category == 'Cashier'"></app-cashier-home>
+<p *ngIf="roles == null">home works!</p>
+<app-waiter-home *ngIf="roles.includes('WAITER')"></app-waiter-home>
+<app-cooker-home *ngIf="roles.includes('COOKER')"></app-cooker-home>
+<app-bartender-home *ngIf="roles.includes('BARTENDER')"></app-bartender-home>
+<app-cashier-home *ngIf="roles.includes('CASHIER')"></app-cashier-home>

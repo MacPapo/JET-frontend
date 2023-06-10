@@ -4,6 +4,11 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment as env } from '../../../environments/environment';
 
+interface Role {
+  _id: string;
+  code: string;
+}
+
 interface LoginResponse {
   data: {
     tokens: {
@@ -12,7 +17,7 @@ interface LoginResponse {
     };
     user: {
       _id: string;
-      roles: string[];
+      roles: Role[];
     };
   };
 }
@@ -56,14 +61,17 @@ export class JwtService {
   private saveLoginData(accessToken: string,
     refreshToken: string,
     userId: string,
-    roles: string[]): void {
+    roles: Role[]): void {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('userId', userId);
-    localStorage.setItem('roles', JSON.stringify(roles));
+
+    const roleCodes = roles.map(role => role['code']);
+
+    localStorage.setItem('roles', JSON.stringify(roleCodes));
   }
 
-  private getLoginData(): any {
+  getLoginData(): any {
     return {
       accessToken: localStorage.getItem('accessToken'),
       refreshToken: localStorage.getItem('refreshToken'),

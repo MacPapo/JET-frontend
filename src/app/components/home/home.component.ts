@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { JwtService } from 'src/app/services/auth/jwt.service';
 
 @Component({
   selector: 'app-home',
@@ -6,10 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
-  category: string | null;
+  roles: string[];
 
-  constructor() {
-    this.category = localStorage.getItem('category');
-    console.log(this.category);
+  constructor(jwtService: JwtService) {
+    this.roles = jwtService.getLoginData().roles;
   }
 }
