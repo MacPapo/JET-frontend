@@ -34,9 +34,9 @@ interface RefreshTokenResponse {
 })
 export class JwtService {
 
-  private apiUrl = '/api';
+  private apiUrl = '/api/auth';
 
-  private loginUrl = `${this.apiUrl}/login/basic`;
+  private loginUrl = `${this.apiUrl}/login`;
   private refreshTokenUrl = `${this.apiUrl}/token/refresh`;
 
   private headers = new HttpHeaders({
