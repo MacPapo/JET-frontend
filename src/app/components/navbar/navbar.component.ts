@@ -17,8 +17,13 @@ export class NavbarComponent {
     private jwtService: JwtService) {
     this.subscription = NavbarService.getLogged().subscribe(value => {
       this.isLogged = value;
-      this.isAdmin = jwtService.getLoginData().roles.includes('ADMIN');
+      this.isAdmin = this.jwtService.isAdmin();
     });
+  }
+
+  ngOnInit() {
+    this.isLogged = this.jwtService.isLoggedIn();
+    this.isAdmin = this.jwtService.isAdmin();
   }
 
   ngOnDestroy() {

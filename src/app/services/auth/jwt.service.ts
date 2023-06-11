@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { environment as env } from '../../../environments/environment';
+import jwt_decode from 'jwt-decode';
 
 interface Role {
   _id: string;
@@ -22,6 +23,11 @@ interface LoginResponse {
   };
 }
 
+interface RefreshTokenResponse {
+  accessToken: string;
+  refreshToken: string;
+}
+
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +37,7 @@ export class JwtService {
   private apiUrl = '/api';
 
   private loginUrl = `${this.apiUrl}/login/basic`;
+  private refreshTokenUrl = `${this.apiUrl}/token/refresh`;
 
   private headers = new HttpHeaders({
     'Content-Type': 'application/json',
@@ -50,6 +57,16 @@ export class JwtService {
         })
       );
   }
+
+  private refreshToken(): Observable<any> {
+    return this.http.post<RefreshTokenResponse>(this.refreshTokenUrl, { refreshToken: this.getLoginData().refreshToken }, { headers: this.headers })
+      .pipe(
+        tap(response => {
+          this.setTokens(response['accessToken'], response['refreshToken']);
+        })
+      );
+  }
+
 
   logout(): void {
     localStorage.removeItem('accessToken');
@@ -71,6 +88,11 @@ export class JwtService {
     localStorage.setItem('roles', JSON.stringify(roleCodes));
   }
 
+  private setTokens(accessToken: string, refreshToken: string): void {
+    localStorage.setItem('accessToken', accessToken);
+    localStorage.setItem('refreshToken', refreshToken);
+  }
+
   getLoginData(): any {
     return {
       accessToken: localStorage.getItem('accessToken'),
@@ -80,32 +102,59 @@ export class JwtService {
     };
   }
 
-  private isTokenExpired(token: string): boolean {
-    // Implement your logic to check if the token is expired
-    // For example, you can decode the token and check the expiration date
-    // You can use libraries like jwt-decode for decoding JWT tokens
-    // Here's a simple example assuming the token has an 'exp' claim:
-    const decodedToken: any = this.decodeToken(token);
-    if (decodedToken && decodedToken.exp) {
-      const expirationDate = new Date(0);
-      expirationDate.setUTCSeconds(decodedToken.exp);
-      return expirationDate < new Date();
+  isLoggedIn(): boolean {
+    const loginData = this.getLoginData();
+    if (!loginData) {
+      console.log("no login data");
+      return false;
+    }
+    if (!loginData.refreshToken) {
+      console.log("no refresh token");
+      return false;
+    }
+    if (!loginData.accessToken) {
+      console.log("no access token");
+      return false;
+    }
+    if (this.isTokenExpired(loginData.accessToken)) {
+      console.log(this.isTokenExpired(loginData.accessToken));
+      this.refreshToken()
+        .subscribe(
+          response => {
+            return true;
+          },
+          error => {
+            return false;
+          }
+        );
+    }
+    return true;
+  }
+
+  isAdmin(): boolean {
+    const loginData = this.getLoginData();
+    if (loginData.roles) {
+      return loginData.roles.includes('ADMIN');
     }
     return false;
   }
 
-  private decodeToken(token: string): any {
-    // Implement your logic to decode the token
-    // You can use libraries like jwt-decode for decoding JWT tokens
-    // Here's a simple example assuming the token is a base64-encoded JSON:
+  private getDecodedAccessToken(token: string): any {
     try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const decodedToken = JSON.parse(window.atob(base64));
-      return decodedToken;
+      return jwt_decode(token);
     } catch (error) {
-      console.error('Error decoding token:', error);
       return null;
     }
+  }
+
+  private isTokenExpired(token: string): boolean {
+    const decodedToken = this.getDecodedAccessToken(token);
+    if (decodedToken) {
+      const expireDate = new Date(decodedToken.exp * 1000).getDate();
+      const currentDate = new Date().getDate();
+      console.log("expired " + (expireDate < currentDate));
+      return expireDate < currentDate;
+    }
+    return true;
   }
 }
