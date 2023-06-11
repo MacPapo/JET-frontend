@@ -1,8 +1,37 @@
 <mat-card>
-    <h2>Table List</h2>
-    <mat-list>
-        <mat-list-item *ngFor="let table of tables">
-            {{ table.number }} - {{ table.seats }} - {{ table.isAvailable }}
-        </mat-list-item>
-    </mat-list>
+    <div class="title-container">
+        <button mat-raised-button color="primary" (click)="addTable()">Add New</button>
+    </div>
+
+    <mat-table [dataSource]="tables">
+        <ng-container matColumnDef="number">
+            <mat-header-cell *matHeaderCellDef>Number</mat-header-cell>
+            <mat-cell *matCellDef="let table">{{ table.number }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="seats">
+            <mat-header-cell *matHeaderCellDef>Seats</mat-header-cell>
+            <mat-cell *matCellDef="let table">{{ table.seats }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="isAvailable">
+            <mat-header-cell *matHeaderCellDef>Production time</mat-header-cell>
+            <mat-cell *matCellDef="let table">{{ table.isAvailable }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="manage">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let table">
+                <button mat-icon-button color="primary" (click)="editTable(table)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteTable(table)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['number', 'seats', 'isAvailable', 'manage']"></mat-header-row>
+        <mat-row *matRowDef="let table; columns: ['number', 'seats', 'isAvailable', 'manage']"></mat-row>
+    </mat-table>
 </mat-card>

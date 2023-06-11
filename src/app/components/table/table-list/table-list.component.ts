@@ -1,5 +1,11 @@
 import { Component } from '@angular/core';
 
+interface Table {
+  number: number;
+  seats: number;
+  isAvailable: boolean;
+}
+
 @Component({
   selector: 'app-table-list',
   templateUrl: './table-list.component.html',
@@ -10,4 +16,16 @@ export class TableListComponent {
   { number: 2, seats: 4, isAvailable: true },
   { number: 3, seats: 4, isAvailable: true },
   { number: 4, seats: 6, isAvailable: true },];
+
+  editTable(table: Table) {
+    console.log('Edit table', table);
+  }
+
+  deleteTable(table: Table) {
+    console.log('Delete table', table);
+  }
+
+  addTable() {
+    console.log('Add table');
+  }
 }

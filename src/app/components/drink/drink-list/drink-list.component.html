@@ -1,8 +1,44 @@
 <mat-card>
-    <h2>Drink List</h2>
-    <mat-list>
-        <mat-list-item *ngFor="let drink of drinks">
-            {{ drink.name }} - {{ drink.price }}
-        </mat-list-item>
-    </mat-list>
+    <div class="title-container">
+        <button mat-raised-button color="primary" (click)="addDrink()">Add New</button>
+    </div>
+
+    <mat-table [dataSource]="drinks">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.price }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="productionTime">
+            <mat-header-cell *matHeaderCellDef>Production time</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.productionTime }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="manage">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let drink">
+                <button mat-icon-button color="primary" (click)="editDrink(drink)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteDrink(drink)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row
+            *matHeaderRowDef="['name', 'price', 'description', 'productionTime', 'manage']"></mat-header-row>
+        <mat-row
+            *matRowDef="let drink; columns: ['name', 'price', 'description', 'productionTime', 'manage']"></mat-row>
+    </mat-table>
 </mat-card>
