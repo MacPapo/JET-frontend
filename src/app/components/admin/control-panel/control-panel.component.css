@@ -1,0 +1,40 @@
+.example-action-buttons {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 20px;
+}
+
+.expand-button {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+.collapse-button {
+  background-color: #f44336;
+  color: #fff;
+}
+
+.expand-button:hover,
+.collapse-button:hover {
+  opacity: 0.8;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.example-headers-align .mat-panel-description mat-icon {
+  margin-left: 5px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description .mat-icon-button {
+  padding: 4px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description .mat-icon-button:hover {
+  background-color: #e0e0e0;
+}
