@@ -19,7 +19,6 @@ export class RegisterService {
 
   constructor(private http: HttpClient) {}
 
-  //MODIFY BACKEND TO ACCEPT isAdmin
   register(email: string, password: string, firstName: string, lastName: string, roles: string[]): Observable<any> {
     return this.http.post(this.registerUrl, { firstName, lastName, email, password, roles }, { headers: this.headers });
   }

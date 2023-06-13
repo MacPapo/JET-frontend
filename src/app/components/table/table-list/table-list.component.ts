@@ -1,10 +1,5 @@
 import { Component } from '@angular/core';
-
-interface Table {
-  number: number;
-  seats: number;
-  isAvailable: boolean;
-}
+import Table from 'src/app/interfaces/table.interface'
 
 @Component({
   selector: 'app-table-list',

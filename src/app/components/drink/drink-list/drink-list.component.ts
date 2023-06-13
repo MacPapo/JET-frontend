@@ -1,11 +1,5 @@
 import { Component } from '@angular/core';
-
-interface Drink {
-  name: string;
-  price: number;
-  description?: string;
-  productionTime: number;
-}
+import Drink from 'src/app/interfaces/drink.interface'
 
 @Component({
   selector: 'app-drink-list',
@@ -24,6 +18,6 @@ export class DrinkListComponent {
   }
 
   addDrink() {
-    console.log('Add table');
+    console.log('Add drink');
   }
 }

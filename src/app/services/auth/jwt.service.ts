@@ -44,6 +44,12 @@ export class JwtService {
     'x-api-key': env.xApiKey
   });
 
+  private refreshTokenHeaders = new HttpHeaders({
+    'Content-Type': 'application/json',
+    'x-api-key': env.xApiKey,
+    'Authorization': `Bearer ${this.getLoginData().accessToken}`
+  });
+
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string): Observable<any> {
@@ -58,15 +64,16 @@ export class JwtService {
       );
   }
 
-  private refreshToken(): Observable<any> {
-    return this.http.post<RefreshTokenResponse>(this.refreshTokenUrl, { refreshToken: this.getLoginData().refreshToken }, { headers: this.headers })
+  refreshToken(): Observable<any> {
+    return this.http.post<RefreshTokenResponse>(this.refreshTokenUrl, { refreshToken: this.getLoginData().refreshToken }, { headers: this.refreshTokenHeaders })
       .pipe(
         tap(response => {
           this.setTokens(response['accessToken'], response['refreshToken']);
+        }, error => {
+          console.log(error.error.message);
         })
       );
   }
-
 
   logout(): void {
     localStorage.removeItem('accessToken');
@@ -89,6 +96,8 @@ export class JwtService {
   }
 
   private setTokens(accessToken: string, refreshToken: string): void {
+    localStorage.removeItem('accessToken');
+
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   }
@@ -117,7 +126,6 @@ export class JwtService {
       return false;
     }
     if (this.isTokenExpired(loginData.accessToken)) {
-      console.log(this.isTokenExpired(loginData.accessToken));
       this.refreshToken()
         .subscribe(
           response => {
@@ -147,7 +155,7 @@ export class JwtService {
     }
   }
 
-  private isTokenExpired(token: string): boolean {
+  isTokenExpired(token: string): boolean {
     const decodedToken = this.getDecodedAccessToken(token);
     if (decodedToken) {
       const expireDate = new Date(decodedToken.exp * 1000).getDate();
