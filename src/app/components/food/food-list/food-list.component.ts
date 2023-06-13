@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import Food from 'src/app/interfaces/food.interface'
 import { FoodService } from 'src/app/services/food/food.service';
+import { MatDialog } from '@angular/material/dialog';
+import { FoodFormComponent } from '../food-form/food-form.component';
 
 interface GetFoodsResponse {
   statusCode: string;
@@ -16,11 +18,22 @@ interface GetFoodsResponse {
 export class FoodListComponent {
   foods: Food[] = [];
 
-  constructor(private foodService: FoodService) {}
+  constructor(private foodService: FoodService,
+    private dialog: MatDialog,) {}
 
   ngOnInit() {
     this.getFoods();
   }
+
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+    this.dialog.open(FoodFormComponent, {
+      width: '500px',
+      height: '350px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+    });
+  }
+
 
   getFoods() {
     this.foodService.getFoods().subscribe((response: GetFoodsResponse) => {
@@ -33,7 +46,7 @@ export class FoodListComponent {
   }
 
   addFood() {
-    console.log('Add food');
+    this.openDialog('500ms', '500ms');
   }
 
   editFood(food: Food) {
