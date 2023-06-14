@@ -1,4 +1,4 @@
-<h2 mat-dialog-title>Add New Food</h2>
+<h2 mat-dialog-title>{{ data.title }}</h2>
 <mat-dialog-content class="mat-typography">
 
     <div class="form-fields" style="margin-top: 5px;">
@@ -43,5 +43,5 @@
 
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="addFood()" cdkFocusInitial>Add</button>
+    <button mat-button (click)="addFood()" cdkFocusInitial>{{ buttonText }}</button>
 </mat-dialog-actions>

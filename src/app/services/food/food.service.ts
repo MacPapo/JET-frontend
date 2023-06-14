@@ -42,6 +42,7 @@ export class FoodService {
   }
 
   editFood(food: Food): Observable<Food> {
+    console.log(food);
     return this.http.put<Food>(`${this.apiUrl}/${food._id}`, food, { headers: this.headers });
   }
 

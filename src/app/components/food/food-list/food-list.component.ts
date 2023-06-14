@@ -25,16 +25,20 @@ export class FoodListComponent {
     this.getFoods();
   }
 
-  openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
+  openDialog(enterAnimationDuration: string, exitAnimationDuration: string, title: string, food?: Food): void {
     const dialogRef = this.dialog.open(FoodFormComponent, {
       width: '500px',
       height: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
+      data: {
+        title: title,
+        food: food
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result == 'added') {
+      if (result == 'added' || result == 'updated') {
         this.getFoods();
       }
     });
@@ -52,11 +56,11 @@ export class FoodListComponent {
   }
 
   addFood() {
-    this.openDialog('500ms', '500ms');
+    this.openDialog('500ms', '500ms', 'Add Food');
   }
 
   editFood(food: Food) {
-    console.log('Edit food', food);
+    this.openDialog('500ms', '500ms', 'Edit Food', food);
   }
 
   deleteFood(food: Food) {
