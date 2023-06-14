@@ -26,11 +26,17 @@ export class FoodListComponent {
   }
 
   openDialog(enterAnimationDuration: string, exitAnimationDuration: string): void {
-    this.dialog.open(FoodFormComponent, {
+    const dialogRef = this.dialog.open(FoodFormComponent, {
       width: '500px',
       height: '350px',
       enterAnimationDuration,
       exitAnimationDuration,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result == 'added') {
+        this.getFoods();
+      }
     });
   }
 

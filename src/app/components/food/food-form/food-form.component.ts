@@ -44,16 +44,17 @@ export class FoodFormComponent {
       this.foodService.addFood(food).subscribe(
         (response: any) => {
           console.log(response);
-          this.dialogRef.close();
+          this.dialogRef.close('added');
         },
         (error: any) => {
           console.log(error);
+          this.dialogRef.close('error');
         }
       );
     }
   }
 
   cancel() {
-    this.dialogRef.close();
+    this.dialogRef.close('cancel');
   }
 }
