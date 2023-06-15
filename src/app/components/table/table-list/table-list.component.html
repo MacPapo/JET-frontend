@@ -15,7 +15,7 @@
         </ng-container>
 
         <ng-container matColumnDef="isAvailable">
-            <mat-header-cell *matHeaderCellDef>Production time</mat-header-cell>
+            <mat-header-cell *matHeaderCellDef>isAvailable</mat-header-cell>
             <mat-cell *matCellDef="let table">{{ table.isAvailable }}</mat-cell>
         </ng-container>
 
@@ -25,7 +25,7 @@
                 <button mat-icon-button color="primary" (click)="editTable(table)">
                     <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" (click)="deleteTable(table)">
+                <button mat-icon-button color="warn" (click)="deleteTableDialog(table._id)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-cell>

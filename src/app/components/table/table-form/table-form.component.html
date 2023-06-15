@@ -1,1 +1,32 @@
-<p>table-form works!</p>
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <div class="form-fields">
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Number</mat-label>
+                <input matInput [formControl]="number" type="number">
+                <mat-error *ngIf="number.invalid && number.errors?.['required']">Number is required</mat-error>
+                <mat-error *ngIf="number.invalid && number.errors?.['min']">Invalid format</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Seats</mat-label>
+                <input matInput [formControl]="seats" type="number">
+                <mat-error *ngIf="seats.invalid && seats.errors?.['required']">Seats is required</mat-error>
+                <mat-error *ngIf="seats.invalid && seats.errors?.['min']">Invalid format</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-slide-toggle [formControl]="isAvailable">isAvailable</mat-slide-toggle>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="addTable()" cdkFocusInitial>{{ buttonText }}</button>
+</mat-dialog-actions>

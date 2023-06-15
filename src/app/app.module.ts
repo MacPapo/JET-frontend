@@ -5,6 +5,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from "@angular/material/form-field";
 
 // Common Components
 import { NavbarComponent } from './components/navbar/navbar.component';
@@ -31,6 +33,8 @@ import { FoodListComponent } from './components/food/food-list/food-list.compone
 import { FoodFormComponent } from './components/food/food-form/food-form.component';
 import { DrinkListComponent } from './components/drink/drink-list/drink-list.component';
 import { DrinkFormComponent } from './components/drink/drink-form/drink-form.component';
+import { ErrorDialogComponent } from './components/shared/error-dialog/error-dialog.component';
+import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +58,8 @@ import { DrinkFormComponent } from './components/drink/drink-form/drink-form.com
     FoodFormComponent,
     DrinkListComponent,
     DrinkFormComponent,
+    ErrorDialogComponent,
+    ConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +67,12 @@ import { DrinkFormComponent } from './components/drink/drink-form/drink-form.com
     BrowserAnimationsModule,
     MaterialModule,
     HttpClientModule,
+    MatInputModule,
+    MatFormFieldModule,
+  ],
+  exports: [
+    MatInputModule,
+    MatFormFieldModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,6 +4,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import Food from 'src/app/interfaces/food.interface';
 import { FormControl, Validators } from '@angular/forms';
 import { FoodService } from 'src/app/services/food/food.service';
+import { ErrorDialogComponent } from '../../shared/error-dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-food-form',
@@ -21,7 +24,9 @@ export class FoodFormComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: { title: string, food?: Food },
     private foodService: FoodService,
-    public dialogRef: MatDialogRef<FoodFormComponent>) {
+    public dialogRef: MatDialogRef<FoodFormComponent>,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar) {
     if (data.food) {
       this.name.setValue(data.food.name);
       this.price.setValue(data.food.price);
@@ -45,6 +50,21 @@ export class FoodFormComponent {
     this.productionTime.markAsTouched();
   }
 
+  private openDialog(enterAnimationDuration: string, exitAnimationDuration: string, title: string, errorMessage: string): void {
+    this.dialog.open(ErrorDialogComponent, {
+      width: '250px',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: { title, errorMessage }
+    });
+  }
+
+  private openSnackBar(message: string, action: string, duration: number) {
+    this.snackBar.open(message, action, {
+      duration,
+    });
+  }
+
   addFood() {
     if (this.name.invalid || this.price.invalid || this.description.invalid || this.productionTime.invalid) {
       this.triggerValidators();
@@ -65,10 +85,10 @@ export class FoodFormComponent {
           (response: any) => {
             console.log(response);
             this.dialogRef.close('added');
+            this.openSnackBar('Food created successfully!', 'Close', 4000);
           },
           (error: any) => {
-            console.log(error);
-            this.dialogRef.close('error');
+            this.openDialog('500ms', '500ms', 'Food not added', error.error.message);
           }
         );
 
@@ -83,10 +103,11 @@ export class FoodFormComponent {
       (response: any) => {
         console.log(response);
         this.dialogRef.close('updated');
+        this.openSnackBar('Food updated successfully!', 'Close', 4000);
       },
       (error: any) => {
         console.log(error);
-        this.dialogRef.close('error');
+        this.openDialog('500ms', '500ms', 'Food not updated', error.error.message);
       }
     );
   }
