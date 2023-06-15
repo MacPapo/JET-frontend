@@ -32,37 +32,44 @@ import { FoodFormComponent } from './components/food/food-form/food-form.compone
 import { DrinkListComponent } from './components/drink/drink-list/drink-list.component';
 import { DrinkFormComponent } from './components/drink/drink-form/drink-form.component';
 
+// AuthGuards and Interceptors
+import { AuthGuard } from './guards/auth.guard';
+import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
+
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    RegisterComponent,
-    HomeComponent,
-    WaiterHomeComponent,
-    CookerHomeComponent,
-    BartenderHomeComponent,
-    CashierHomeComponent,
-    LogoutComponent,
-    RegistrationFailedDialogComponent,
-    SnackbarComponent,
-    LoginFailedDialogComponent,
-    ControlPanelComponent,
-    TableListComponent,
-    TableFormComponent,
-    FoodListComponent,
-    FoodFormComponent,
-    DrinkListComponent,
-    DrinkFormComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    HttpClientModule,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        LoginComponent,
+        RegisterComponent,
+        HomeComponent,
+        WaiterHomeComponent,
+        CookerHomeComponent,
+        BartenderHomeComponent,
+        CashierHomeComponent,
+        LogoutComponent,
+        RegistrationFailedDialogComponent,
+        SnackbarComponent,
+        LoginFailedDialogComponent,
+        ControlPanelComponent,
+        TableListComponent,
+        TableFormComponent,
+        FoodListComponent,
+        FoodFormComponent,
+        DrinkListComponent,
+        DrinkFormComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HttpClientModule,
+    ],
+    providers: [
+        AuthGuard,
+        JwtInterceptorProvider
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}
