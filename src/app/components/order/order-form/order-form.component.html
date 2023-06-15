@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Add New Order</h2>
+<mat-dialog-content class="mat-typography">
+
+    <mat-tab-group>
+        <mat-tab label="Foods">
+            <app-waiter-food-list></app-waiter-food-list>
+        </mat-tab>
+        <mat-tab label="Drinks">
+            <app-drink-list></app-drink-list>
+        </mat-tab>
+    </mat-tab-group>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="addOrder()" cdkFocusInitial>Add Order</button>
+</mat-dialog-actions>

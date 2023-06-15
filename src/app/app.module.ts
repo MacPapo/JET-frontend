@@ -35,6 +35,8 @@ import { DrinkListComponent } from './components/drink/drink-list/drink-list.com
 import { DrinkFormComponent } from './components/drink/drink-form/drink-form.component';
 import { ErrorDialogComponent } from './components/shared/error-dialog/error-dialog.component';
 import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confirm-dialog.component';
+import { OrderFormComponent } from './components/order/order-form/order-form.component';
+import { WaiterFoodListComponent } from './components/food/waiter-food-list/waiter-food-list.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
     DrinkFormComponent,
     ErrorDialogComponent,
     ConfirmDialogComponent,
+    OrderFormComponent,
+    WaiterFoodListComponent,
   ],
   imports: [
     BrowserModule,

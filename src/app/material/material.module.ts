@@ -19,6 +19,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
   declarations: [],
@@ -42,6 +43,7 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
+    MatTabsModule,
   ],
   exports: [
     MatToolbarModule,
@@ -62,6 +64,7 @@ import { MatTableModule } from '@angular/material/table';
     MatDatepickerModule,
     MatNativeDateModule,
     MatTableModule,
+    MatTabsModule,
   ]
 })
 export class MaterialModule {}
