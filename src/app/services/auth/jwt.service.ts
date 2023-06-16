@@ -5,6 +5,7 @@ import { tap, catchError } from 'rxjs/operators';
 import { environment as env } from '../../../environments/environment';
 import jwt_decode from 'jwt-decode';
 import { Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 interface Role {
   _id: string;
@@ -126,17 +127,18 @@ export class JwtService {
     };
   }
 
+
   isLoggedIn(): Observable<boolean> {
     const loginData = this.getLoginData();
-    if (!loginData) {
+
+    if (!loginData || !loginData.refreshToken || !loginData.accessToken) {
       return of(false);
     }
-    if (!loginData.refreshToken || !loginData.accessToken) {
-      return of(false);
-    }
+
     if (this.isTokenExpired(loginData.accessToken)) {
       if (!this.refreshingToken) {
         this.refreshingToken = true;
+
         return this.refreshToken().pipe(
           tap(() => {
             this.refreshingToken = false;
@@ -146,11 +148,15 @@ export class JwtService {
             this.refreshingToken = false;
             this.refreshSubject.next(false);
             return of(false);
-          })
+          }),
+          switchMap(() => this.refreshSubject.asObservable())
         );
+      } else {
+        return this.refreshSubject.asObservable();
       }
     }
-    return this.refreshSubject.asObservable();
+
+    return of(true);
   }
 
 

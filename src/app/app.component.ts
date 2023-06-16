@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { JwtService } from './services/auth/jwt.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './services/auth/auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -7,20 +7,21 @@ import { Router } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'client';
-  private jwtService: JwtService;
-  private router: Router;
+  isLogged = false;
 
-  constructor(jwtService: JwtService, router: Router) {
-    this.jwtService = jwtService;
-    this.router = router;
-  }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    if (!this.jwtService.isLoggedIn()) {
-      console.log('Not logged in');
-      this.router.navigate(['login']);
-    }
+    this.authService.isLogged$.subscribe((isLogged: boolean) => {
+      this.isLogged = isLogged;
+
+      if (isLogged) {
+        this.router.navigate(['/']);
+      } else {
+        this.router.navigate(['/login']);
+      }
+    });
   }
 }

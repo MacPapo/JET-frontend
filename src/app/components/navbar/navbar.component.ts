@@ -1,33 +1,23 @@
-import { Component } from '@angular/core';
-import { Subscription } from 'rxjs';
-import { NavbarService } from '../../services/layout/navbar.service';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth/auth.service';
 import { JwtService } from '../../services/auth/jwt.service';
 
 @Component({
-    selector: 'app-navbar',
-    templateUrl: './navbar.component.html',
-    styleUrls: ['./navbar.component.css']
+  selector: 'app-navbar',
+  templateUrl: './navbar.component.html',
+  styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent {
-    isLogged = false;
-    isAdmin = false;
-    private subscription: Subscription;
+export class NavbarComponent implements OnInit {
+  isLogged: boolean = false;
+  isAdmin = false;
 
-    constructor(private navbarService: NavbarService, private jwtService: JwtService) {
-        this.subscription = this.navbarService.getLogged().subscribe(value => {
-            this.isLogged = value;
-            this.isAdmin = this.jwtService.isAdmin();
-        });
-    }
+  constructor(private authService: AuthService,
+    private jwtService: JwtService) {}
 
-    ngOnInit() {
-        this.jwtService.refreshSubject.subscribe(value => {
-            this.isLogged = value;
-            this.isAdmin = this.jwtService.isAdmin();
-        });
-    }
-
-    ngOnDestroy() {
-        this.subscription.unsubscribe();
-    }
+  ngOnInit() {
+    this.authService.isLogged$.subscribe((res) => {
+      this.isLogged = res;
+      this.isAdmin = this.jwtService.isAdmin();
+    });
+  }
 }
