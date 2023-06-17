@@ -92,10 +92,11 @@ export class OrderFormComponent implements OnInit {
         drinks: this.mapDrinksToProducts(this.drinks),
       }).subscribe((order) => {
         this.openSnackBar('Order added successfully', 'Close', 4000);
-        this.dialogRef.close();
+        this.dialogRef.close('added');
       },
         (error) => {
           this.openDialog('500ms', '500ms', 'Order not added', error.error.message);
+          this.dialogRef.close('error');
         }
       );
     }

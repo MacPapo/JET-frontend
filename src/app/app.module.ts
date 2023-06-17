@@ -42,6 +42,7 @@ import { WaiterFoodListComponent } from './components/food/waiter-food-list/wait
 import { AuthGuard } from './guards/auth.guard';
 import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
 import { WaiterDrinkListComponent } from './components/drink/waiter-drink-list/waiter-drink-list.component';
+import { OrderListComponent } from './components/order/order-list/order-list.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { WaiterDrinkListComponent } from './components/drink/waiter-drink-list/w
     OrderFormComponent,
     WaiterFoodListComponent,
     WaiterDrinkListComponent,
+    OrderListComponent,
   ],
   imports: [
     BrowserModule,
