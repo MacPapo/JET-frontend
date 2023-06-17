@@ -38,6 +38,10 @@ import { ConfirmDialogComponent } from './components/shared/confirm-dialog/confi
 import { OrderFormComponent } from './components/order/order-form/order-form.component';
 import { WaiterFoodListComponent } from './components/food/waiter-food-list/waiter-food-list.component';
 
+// AuthGuards and Interceptors
+import { AuthGuard } from './guards/auth.guard';
+import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -78,7 +82,10 @@ import { WaiterFoodListComponent } from './components/food/waiter-food-list/wait
     MatInputModule,
     MatFormFieldModule,
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    JwtInterceptorProvider
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

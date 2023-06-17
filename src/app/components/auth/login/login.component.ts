@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { JwtService } from '../../../services/auth/jwt.service';
-import { NavbarService } from '../../../services/layout/navbar.service';
 import { Router } from '@angular/router';
 import { LoginFailedDialogComponent } from '../login-failed-dialog/login-failed-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,7 @@ export class LoginComponent {
 
   constructor(private jwtService: JwtService,
     private router: Router,
-    private navbarService: NavbarService,
+    private authService: AuthService,
     private dialog: MatDialog,
     private snackBar: MatSnackBar) {}
 
@@ -44,7 +44,7 @@ export class LoginComponent {
   login() {
     this.jwtService.login(this.email.value!, this.password.value!).subscribe(
       (response: any) => {
-        this.navbarService.setLogged(true);
+        this.authService.setLoggedState(true);
         this.openSnackBar('Login successful!', 'Close', 4000);
         this.router.navigate(['/']);
       },

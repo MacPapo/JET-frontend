@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { environment as env } from '../../../environments/environment';
 import jwt_decode from 'jwt-decode';
+import { Router } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 
 interface Role {
   _id: string;
@@ -28,12 +30,10 @@ interface RefreshTokenResponse {
   refreshToken: string;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })
 export class JwtService {
-
   private apiUrl = '/api/auth';
 
   private loginUrl = `${this.apiUrl}/login`;
@@ -44,33 +44,25 @@ export class JwtService {
     'x-api-key': env.xApiKey
   });
 
-  private refreshTokenHeaders = new HttpHeaders({
-    'Content-Type': 'application/json',
-    'x-api-key': env.xApiKey,
-    'Authorization': `Bearer ${this.getLoginData().accessToken}`
-  });
+  refreshSubject = new BehaviorSubject<boolean>(false);
+  private refreshingToken = false;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,
+    private router: Router) {}
 
   login(email: string, password: string): Observable<any> {
-    return this.http.post<LoginResponse>(this.loginUrl, { email, password }, { headers: this.headers })
+    return this.http
+      .post<LoginResponse>(this.loginUrl,
+        { email, password },
+        { headers: this.headers })
       .pipe(
         tap(response => {
-          this.saveLoginData(response['data']['tokens']['accessToken'],
-            response['data']['tokens']['refreshToken'],
-            response['data']['user']['_id'],
-            response['data']['user']['roles']);
-        })
-      );
-  }
-
-  refreshToken(): Observable<any> {
-    return this.http.post<RefreshTokenResponse>(this.refreshTokenUrl, { refreshToken: this.getLoginData().refreshToken }, { headers: this.refreshTokenHeaders })
-      .pipe(
-        tap(response => {
-          this.setTokens(response['accessToken'], response['refreshToken']);
-        }, error => {
-          console.log(error.error.message);
+          this.saveLoginData(
+            response.data.tokens.accessToken,
+            response.data.tokens.refreshToken,
+            response.data.user._id,
+            response.data.user.roles
+          );
         })
       );
   }
@@ -80,24 +72,48 @@ export class JwtService {
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('userId');
     localStorage.removeItem('roles');
+    this.router.navigate(['/login']);
   }
 
-  private saveLoginData(accessToken: string,
+  refreshToken(): Observable<any> {
+    const refreshToken = this.getLoginData().refreshToken;
+    return this.http
+      .post<RefreshTokenResponse>(
+        this.refreshTokenUrl,
+        { refreshToken },
+        { headers: this.headers }
+      )
+      .pipe(
+        tap(
+          response => {
+            console.log('refresh token');
+            this.setTokens(response.accessToken, response.refreshToken);
+            this.refreshSubject.next(true);
+          },
+          error => {
+            console.log(error.error.message);
+            console.log('refresh token error');
+          }
+        )
+      );
+  }
+
+  private saveLoginData(
+    accessToken: string,
     refreshToken: string,
     userId: string,
-    roles: Role[]): void {
+    roles: Role[]
+  ): void {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
     localStorage.setItem('userId', userId);
 
-    const roleCodes = roles.map(role => role['code']);
+    const roleCodes = roles.map(role => role.code);
 
     localStorage.setItem('roles', JSON.stringify(roleCodes));
   }
 
-  private setTokens(accessToken: string, refreshToken: string): void {
-    localStorage.removeItem('accessToken');
-
+  setTokens(accessToken: string, refreshToken: string): void {
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
   }
@@ -111,40 +127,43 @@ export class JwtService {
     };
   }
 
-  isLoggedIn(): boolean {
+
+  isLoggedIn(): Observable<boolean> {
     const loginData = this.getLoginData();
-    if (!loginData) {
-      console.log("no login data");
-      return false;
+
+    if (!loginData || !loginData.refreshToken || !loginData.accessToken) {
+      return of(false);
     }
-    if (!loginData.refreshToken) {
-      console.log("no refresh token");
-      return false;
-    }
-    if (!loginData.accessToken) {
-      console.log("no access token");
-      return false;
-    }
+
     if (this.isTokenExpired(loginData.accessToken)) {
-      this.refreshToken()
-        .subscribe(
-          response => {
-            return true;
-          },
-          error => {
-            return false;
-          }
+      if (!this.refreshingToken) {
+        this.refreshingToken = true;
+
+        return this.refreshToken().pipe(
+          tap(() => {
+            this.refreshingToken = false;
+            this.refreshSubject.next(true);
+          }),
+          catchError(() => {
+            this.refreshingToken = false;
+            this.refreshSubject.next(false);
+            return of(false);
+          }),
+          switchMap(() => this.refreshSubject.asObservable())
         );
+      } else {
+        return this.refreshSubject.asObservable();
+      }
     }
-    return true;
+
+    return of(true);
   }
+
+
 
   isAdmin(): boolean {
     const loginData = this.getLoginData();
-    if (loginData.roles) {
-      return loginData.roles.includes('ADMIN');
-    }
-    return false;
+    return loginData.roles && loginData.roles.includes('ADMIN');
   }
 
   private getDecodedAccessToken(token: string): any {
@@ -160,7 +179,6 @@ export class JwtService {
     if (decodedToken) {
       const expireDate = new Date(decodedToken.exp * 1000).getDate();
       const currentDate = new Date().getDate();
-      console.log("expired " + (expireDate < currentDate));
       return expireDate < currentDate;
     }
     return true;
