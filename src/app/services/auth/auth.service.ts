@@ -13,4 +13,8 @@ export class AuthService {
   setLoggedState(isLogged: boolean): void {
     this.isLoggedSubject.next(isLogged);
   }
+
+  getLoggedState(): boolean {
+    return this.isLoggedSubject.value;
+  }
 }

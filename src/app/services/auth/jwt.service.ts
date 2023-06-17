@@ -128,35 +128,14 @@ export class JwtService {
   }
 
 
-  isLoggedIn(): Observable<boolean> {
+  isLoggedIn(): boolean {
     const loginData = this.getLoginData();
 
     if (!loginData || !loginData.refreshToken || !loginData.accessToken) {
-      return of(false);
+      return false;
     }
 
-    if (this.isTokenExpired(loginData.accessToken)) {
-      if (!this.refreshingToken) {
-        this.refreshingToken = true;
-
-        return this.refreshToken().pipe(
-          tap(() => {
-            this.refreshingToken = false;
-            this.refreshSubject.next(true);
-          }),
-          catchError(() => {
-            this.refreshingToken = false;
-            this.refreshSubject.next(false);
-            return of(false);
-          }),
-          switchMap(() => this.refreshSubject.asObservable())
-        );
-      } else {
-        return this.refreshSubject.asObservable();
-      }
-    }
-
-    return of(true);
+    return true;
   }
 
 

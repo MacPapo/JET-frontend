@@ -7,14 +7,18 @@ import { JwtService } from '../../services/auth/jwt.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css'],
 })
-export class NavbarComponent implements OnInit {
-  isLogged: boolean = false;
+export class NavbarComponent {
+  isLogged: boolean;
   isAdmin = false;
 
   constructor(private authService: AuthService,
-    private jwtService: JwtService) {}
+    private jwtService: JwtService) {
+    this.subscribe();
+    this.isLogged = this.jwtService.isLoggedIn();
+    this.isAdmin = this.jwtService.isAdmin();
+  }
 
-  ngOnInit() {
+  private subscribe() {
     this.authService.isLogged$.subscribe((res) => {
       this.isLogged = res;
       this.isAdmin = this.jwtService.isAdmin();
