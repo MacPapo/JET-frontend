@@ -1,33 +1,33 @@
 <mat-card>
-    <mat-table [dataSource]="foods">
+    <mat-table [dataSource]="drinks">
         <ng-container matColumnDef="name">
             <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-            <mat-cell *matCellDef="let food">{{ food.name }}</mat-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.name }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="price">
             <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
-            <mat-cell *matCellDef="let food">{{ food.price }} $</mat-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.price }} $</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="description">
             <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
-            <mat-cell *matCellDef="let food">{{ food.description }}</mat-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.description }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="productionTime">
             <mat-header-cell *matHeaderCellDef>Production time</mat-header-cell>
-            <mat-cell *matCellDef="let food">{{ food.productionTime }} mins</mat-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.productionTime }} mins</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="manage">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
-            <mat-cell *matCellDef="let food">
-                <button mat-icon-button color="warn" (click)="incrementQuantity(food)">
+            <mat-cell *matCellDef="let drink">
+                <button mat-icon-button color="warn" (click)="incrementQuantity(drink)">
                     <mat-icon>add</mat-icon>
                 </button>
-                <mat-label>{{ food.foodQuantity }}</mat-label>
-                <button mat-icon-button color="primary" (click)="decrementQuantity(food)">
+                <mat-label>{{ drink.drinkQuantity }}</mat-label>
+                <button mat-icon-button color="primary" (click)="decrementQuantity(drink)">
                     <mat-icon>remove</mat-icon>
                 </button>
             </mat-cell>
@@ -35,6 +35,7 @@
 
         <mat-header-row
             *matHeaderRowDef="['name', 'price', 'description', 'productionTime', 'manage']"></mat-header-row>
-        <mat-row *matRowDef="let food; columns: ['name', 'price', 'description', 'productionTime', 'manage']"></mat-row>
+        <mat-row
+            *matRowDef="let drink; columns: ['name', 'price', 'description', 'productionTime', 'manage']"></mat-row>
     </mat-table>
 </mat-card>

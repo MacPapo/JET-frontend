@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import Food from 'src/app/interfaces/food.interface';
 import { FoodService } from 'src/app/services/food/food.service';
 
@@ -8,6 +8,9 @@ interface GetFoodsResponse {
   data: Food[];
 }
 
+interface FoodQuantity extends Food {
+  foodQuantity: number;
+}
 
 @Component({
   selector: 'app-waiter-food-list',
@@ -15,7 +18,8 @@ interface GetFoodsResponse {
   styleUrls: ['./waiter-food-list.component.css']
 })
 export class WaiterFoodListComponent {
-  foods: Food[] = [];
+  foods: FoodQuantity[] = [];
+  @Output() foodsAddedToOrder: EventEmitter<FoodQuantity[]> = new EventEmitter<FoodQuantity[]>();
 
   constructor(private foodService: FoodService) {}
 
@@ -25,7 +29,28 @@ export class WaiterFoodListComponent {
 
   getFoods() {
     this.foodService.getFoods().subscribe((response: GetFoodsResponse) => {
-      this.foods = response.data;
+      this.foods = response.data.map((food: Food) => {
+        return {
+          ...food,
+          foodQuantity: 0
+        };
+      });
     });
+  }
+
+  incrementQuantity(food: any) {
+    food.foodQuantity++;
+    this.addFoodsToOrder();
+  }
+
+  decrementQuantity(food: any) {
+    if (food.foodQuantity > 0) {
+      food.foodQuantity--;
+      this.addFoodsToOrder();
+    }
+  }
+
+  addFoodsToOrder() {
+    this.foodsAddedToOrder.emit(this.foods.filter((food: FoodQuantity) => food.foodQuantity > 0));
   }
 }
