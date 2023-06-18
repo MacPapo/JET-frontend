@@ -8,6 +8,7 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap } from 'rxjs/operators';
+import { environment as env } from '../../environments/environment';
 import { JwtService } from '../services/auth/jwt.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -37,6 +38,8 @@ export class JwtInterceptor implements HttpInterceptor {
     private addAuthorizationHeader(request: HttpRequest<any>, accessToken: string): HttpRequest<any> {
         return request.clone({
             setHeaders: {
+                'Content-Type': 'application/json',
+                'x-api-key': env.xApiKey,
                 Authorization: `Bearer ${accessToken}`
             }
         });

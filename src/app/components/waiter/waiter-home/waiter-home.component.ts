@@ -43,6 +43,7 @@ export class WaiterHomeComponent {
       data: {}
     });
 
+
     dialogRef.afterClosed().subscribe(result => {
       this.getOrders();
 
