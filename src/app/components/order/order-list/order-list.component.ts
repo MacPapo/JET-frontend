@@ -16,7 +16,6 @@ export class OrderListComponent implements OnChanges {
     this.orders = this.orders.filter((order) => {
       return order.status === this.status;
     });
-    console.log(this.orders);
   }
 
   markAsDelivered(order: Order): void {

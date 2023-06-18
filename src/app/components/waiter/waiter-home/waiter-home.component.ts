@@ -3,8 +3,7 @@ import { OrderFormComponent } from '../../order/order-form/order-form.component'
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/services/order/order.service';
 import Order from 'src/app/interfaces/order.interface';
-import { io } from "socket.io-client";
-import { environment } from 'src/environments/environment';
+import { SocketService } from 'src/app/services/socket/socket.service';
 
 interface GetOrderResponse {
   statusCode: string;
@@ -18,13 +17,14 @@ interface GetOrderResponse {
   styleUrls: ['./waiter-home.component.css']
 })
 export class WaiterHomeComponent {
-  private socket = io(environment.socketUrl);
   orders: Order[] = [];
 
   constructor(public dialog: MatDialog,
-    private orderService: OrderService) {}
+    private orderService: OrderService,
+    private socketService: SocketService) {}
 
   ngOnInit(): void {
+    this.socketService.connect();
     this.getOrders();
   }
 
@@ -47,8 +47,8 @@ export class WaiterHomeComponent {
     dialogRef.afterClosed().subscribe(result => {
       this.getOrders();
 
-      if (result && result === 'added') {
-        this.socket.emit('new-order', result);
+      if (result && result !== 'error') {
+        this.socketService.emit('new-order', result);
       }
     });
   }
