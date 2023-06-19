@@ -21,7 +21,9 @@ export class WaiterHomeComponent {
 
   constructor(public dialog: MatDialog,
     private orderService: OrderService,
-    private socketService: SocketService) {}
+    private socketService: SocketService) {
+    orderService.setUrl('/api/orders/waiter');
+  }
 
   ngOnInit(): void {
     this.socketService.connect();

@@ -13,9 +13,13 @@ interface GetOrdersResponse {
   providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl = '/api/orders';
+  private apiUrl: string = '/api/orders';
 
   constructor(private http: HttpClient) {}
+
+  setUrl(url: string) {
+    this.apiUrl = url;
+  }
 
   getOrders(): Observable<GetOrdersResponse> {
     return this.http.get<GetOrdersResponse>(this.apiUrl);
