@@ -6,56 +6,60 @@ import Order from 'src/app/interfaces/order.interface';
 import { SocketService } from 'src/app/services/socket/socket.service';
 
 interface GetOrderResponse {
-  statusCode: string;
-  message: string;
-  data: Order[];
+    statusCode: string;
+    message: string;
+    data: Order[];
 }
 
 @Component({
-  selector: 'app-waiter-home',
-  templateUrl: './waiter-home.component.html',
-  styleUrls: ['./waiter-home.component.css']
+    selector: 'app-waiter-home',
+    templateUrl: './waiter-home.component.html',
+    styleUrls: ['./waiter-home.component.css']
 })
 export class WaiterHomeComponent {
-  orders: Order[] = [];
+    orders: Order[] = [];
+    role: string = 'waiter';
 
-  constructor(public dialog: MatDialog,
-    private orderService: OrderService,
-    private socketService: SocketService) {
-    orderService.setUrl('/api/orders/waiter');
-  }
+    constructor(public dialog: MatDialog,
+                private orderService: OrderService,
+                private socketService: SocketService) {}
 
-  ngOnInit(): void {
-    this.socketService.connect();
-    this.getOrders();
-  }
+    ngOnInit(): void {
+        this.socketService.connect();
+        this.getOrders();
+    }
 
-  private getOrders() {
-    this.orderService.getOrders().subscribe((response: GetOrderResponse) => {
-      this.orders = response.data;
-    });
-  }
+    private getOrders() {
+        this.orderService
+            .getOrders(this.role)
+            .subscribe((response: GetOrderResponse) => {
+                this.orders = response.data;
+            });
+    }
 
-  private openDialog(enterAnimationDuration: string, exitAnimationDuration: string) {
-    const dialogRef = this.dialog.open(OrderFormComponent, {
-      width: '80%',
-      height: '70%',
-      enterAnimationDuration,
-      exitAnimationDuration,
-      data: {}
-    });
+    private openDialog(enterAnimationDuration: string,
+                       exitAnimationDuration: string) {
+        const dialogRef = this.dialog.open(OrderFormComponent, {
+            width: '80%',
+            height: '70%',
+            enterAnimationDuration,
+            exitAnimationDuration,
+            data: {}
+        });
 
 
-    dialogRef.afterClosed().subscribe(result => {
-      this.getOrders();
+        dialogRef
+            .afterClosed()
+            .subscribe(result => {
+                this.getOrders();
+                
+                if (result && result !== 'error') {
+                    this.socketService.emit('new-order', result);
+                }
+            });
+    }
 
-      if (result && result !== 'error') {
-        this.socketService.emit('new-order', result);
-      }
-    });
-  }
-
-  addOrder() {
-    this.openDialog('500ms', '500ms');
-  }
+    addOrder() {
+        this.openDialog('500ms', '500ms');
+    }
 }

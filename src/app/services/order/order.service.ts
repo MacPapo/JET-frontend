@@ -1,43 +1,63 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import Order from 'src/app/interfaces/order.interface';
+import Order, { FoodOrder, DrinkOrder } from 'src/app/interfaces/order.interface';
 
-interface GetOrdersResponse {
-  statusCode: string;
-  message: string;
-  data: Order[];
+export interface GetOrdersResponse {
+    statusCode: string;
+    message: string;
+    data: Order[];
+}
+
+export interface GetFoodOrdersResponse {
+    statusCode: string;
+    message: string;
+    data: FoodOrder[];
+}
+
+export interface GetDrinkOrdersResponse {
+    statusCode: string;
+    message: string;
+    data: DrinkOrder[];
 }
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class OrderService {
-  private apiUrl: string = '/api/orders';
+    private apiUrl: string = '/api/orders';
 
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  setUrl(url: string) {
-    this.apiUrl = url;
-  }
+    apiRole(role: string): string {
+        return `${this.apiUrl}/${role}`;
+    }
 
-  getOrders(): Observable<GetOrdersResponse> {
-    return this.http.get<GetOrdersResponse>(this.apiUrl);
-  }
+    getOrders(role: string): Observable<GetOrdersResponse> {
+        return this.http.get<GetOrdersResponse>(this.apiRole(role));
+    }
 
-  getOrder(id: string): Observable<Order> {
-    return this.http.get<Order>(`${this.apiUrl}/${id}`);
-  }
+    getFoodOrders(role: string): Observable<GetFoodOrdersResponse> {
+        return this.http.get<GetFoodOrdersResponse>(this.apiRole(role));
+    }
 
-  addOrder(order: Order): Observable<Order> {
-    return this.http.post<Order>(this.apiUrl, order);
-  }
+    getDrinkOrders(role: string): Observable<GetDrinkOrdersResponse> {
+        return this.http.get<GetDrinkOrdersResponse>(`${this.apiUrl}/${role}`);
+    }
 
-  editOrder(order: Order): Observable<Order> {
-    return this.http.put<Order>(`${this.apiUrl}/${order._id}`, order);
-  }
+    getOrder(role: string, id: string): Observable<Order> {
+        return this.http.get<Order>(this.apiRole(role) + `/${id}`);
+    }
 
-  deleteOrder(id: string): Observable<Order> {
-    return this.http.delete<Order>(`${this.apiUrl}/${id}`);
-  }
+    addOrder(role: string, order: Order): Observable<Order> {
+        return this.http.post<Order>(this.apiRole(role), order);
+    }
+
+    editOrder(role: string, order: Order): Observable<Order> {
+        return this.http.put<Order>(this.apiRole(role) + `/${order._id}`, order);
+    }
+
+    deleteOrder(role: string, id: string): Observable<Order> {
+        return this.http.delete<Order>(this.apiRole(role) + `/${id}`);
+    }
 }

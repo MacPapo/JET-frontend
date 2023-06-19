@@ -1,13 +1,28 @@
-<mat-card>
-  <mat-tab-group>
-    <mat-tab label="Pending">
-      <app-order-list [orders]="orders" [status]="'PENDING'"></app-order-list>
-    </mat-tab>
-    <mat-tab label="Started">
-      <app-order-list [orders]="orders" [status]="'STARTED'"></app-order-list>
-    </mat-tab>
-    <mat-tab label="Completed">
-      <app-order-list [orders]="orders" [status]="'COMPLETED'"></app-order-list>
-    </mat-tab>
-  </mat-tab-group>
-</mat-card>
+<div *ngFor="let item of orders">
+  
+  <mat-card class="food-card">
+    <mat-card-header>
+      <mat-card-title>Table: {{ item.table }}</mat-card-title>
+      <mat-card-subtitle>Waiter: {{ item.waiter.firstName }} {{ item.waiter.lastName }}</mat-card-subtitle>
+      <mat-card-subtitle>
+        Created at: {{ item.createdAt | date:'shortTime' }}
+        <br>
+        Last Update: {{ item.updatedAt | date:'shortTime' }}
+      </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <ul>
+        <li *ngFor="let food of item.foods">
+          {{ food._id.name }} --> Total Time: {{ food._id.productionTime * food.quantity }} min
+          <ul>
+            <li>Quantity: {{ food.quantity }}</li>
+            <li>Production Time: {{ food._id.productionTime }} min</li>
+          </ul>
+        </li>
+      </ul>
+    </mat-card-content>
+
+  </mat-card>
+
+</div>

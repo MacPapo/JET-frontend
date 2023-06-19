@@ -1,1 +1,40 @@
-<p>bartender-home works!</p>
+<div *ngFor="let item of orders">
+  
+  <mat-card class="food-card">
+    <mat-card-header>
+      <mat-card-title>Table: {{ item.table }}</mat-card-title>
+      <mat-card-subtitle>Waiter: {{ item.waiter.firstName }}</mat-card-subtitle>
+      <mat-card-subtitle>Created at: {{ item.createdAt | date:'shortTime' }} - Last Update: {{ item.updatedAt | date:'shortTime' }}</mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+      <p></p>
+      <ul>
+        <li *ngFor="let drink of item.drinks">
+          {{ drink._id.name }} --> Total Time: {{ drink._id.productionTime * drink.quantity }} min
+          <ul>
+            <li>Quantity: {{ drink.quantity }}</li>
+            <li>Production Time: {{ drink._id.productionTime }} min</li>
+          </ul>
+        </li>
+      </ul>
+    </mat-card-content>
+
+  </mat-card>
+
+</div>
+
+<section class="example-section">
+  <span class="example-list-section">
+    <mat-checkbox class="example-margin"
+                  >
+
+    </mat-checkbox>
+  </span>
+  <span class="example-list-section">
+    <ul>
+        <mat-checkbox>
+        </mat-checkbox>
+    </ul>
+  </span>
+</section>

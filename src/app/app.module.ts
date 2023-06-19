@@ -44,54 +44,56 @@ import { JwtInterceptorProvider } from './interceptors/jwt.interceptor';
 import { WaiterDrinkListComponent } from './components/drink/waiter-drink-list/waiter-drink-list.component';
 import { OrderListComponent } from './components/order/order-list/order-list.component';
 import { BillsComponent } from './components/admin/bills/bills.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    NavbarComponent,
-    LoginComponent,
-    RegisterComponent,
-    HomeComponent,
-    WaiterHomeComponent,
-    CookerHomeComponent,
-    BartenderHomeComponent,
-    CashierHomeComponent,
-    LogoutComponent,
-    RegistrationFailedDialogComponent,
-    SnackbarComponent,
-    LoginFailedDialogComponent,
-    ControlPanelComponent,
-    TableListComponent,
-    TableFormComponent,
-    FoodListComponent,
-    FoodFormComponent,
-    DrinkListComponent,
-    DrinkFormComponent,
-    ErrorDialogComponent,
-    ConfirmDialogComponent,
-    OrderFormComponent,
-    WaiterFoodListComponent,
-    WaiterDrinkListComponent,
-    OrderListComponent,
-    BillsComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    HttpClientModule,
-    MatInputModule,
-    MatFormFieldModule,
-  ],
-  exports: [
-    MatInputModule,
-    MatFormFieldModule,
-  ],
-  providers: [
-    AuthGuard,
-    JwtInterceptorProvider
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        NavbarComponent,
+        LoginComponent,
+        RegisterComponent,
+        HomeComponent,
+        WaiterHomeComponent,
+        CookerHomeComponent,
+        BartenderHomeComponent,
+        CashierHomeComponent,
+        LogoutComponent,
+        RegistrationFailedDialogComponent,
+        SnackbarComponent,
+        LoginFailedDialogComponent,
+        ControlPanelComponent,
+        TableListComponent,
+        TableFormComponent,
+        FoodListComponent,
+        FoodFormComponent,
+        DrinkListComponent,
+        DrinkFormComponent,
+        ErrorDialogComponent,
+        ConfirmDialogComponent,
+        OrderFormComponent,
+        WaiterFoodListComponent,
+        WaiterDrinkListComponent,
+        OrderListComponent,
+        BillsComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HttpClientModule,
+        MatInputModule,
+        MatFormFieldModule,
+    ],
+    exports: [
+        MatInputModule,
+        MatFormFieldModule,
+    ],
+    providers: [
+        AuthGuard,
+        DatePipe,
+        JwtInterceptorProvider
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule {}

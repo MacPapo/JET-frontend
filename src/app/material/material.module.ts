@@ -6,6 +6,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { NgIf } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,49 +23,51 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    MatSlideToggleModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatListModule,
-    MatExpansionModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTableModule,
-    MatTabsModule,
-  ],
-  exports: [
-    MatToolbarModule,
-    MatButtonModule,
-    MatIconModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule,
-    NgIf,
-    FormsModule,
-    ReactiveFormsModule,
-    MatSlideToggleModule,
-    MatDialogModule,
-    MatSnackBarModule,
-    MatListModule,
-    MatExpansionModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatTableModule,
-    MatTabsModule,
-  ]
+    declarations: [],
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatListModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTableModule,
+        MatTabsModule,
+        MatCheckboxModule,
+    ],
+    exports: [
+        MatToolbarModule,
+        MatButtonModule,
+        MatIconModule,
+        MatCardModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        NgIf,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSlideToggleModule,
+        MatDialogModule,
+        MatSnackBarModule,
+        MatListModule,
+        MatExpansionModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatTableModule,
+        MatTabsModule,
+        MatCheckboxModule,
+    ]
 })
 export class MaterialModule {}
