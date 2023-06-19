@@ -7,4 +7,6 @@
     <button mat-button *ngIf="isLogged == true" routerLink="/logout" routerLinkActive="active">Logout</button>
     <button mat-button *ngIf="isLogged == true && isAdmin" routerLink="/admin" routerLinkActive="active">Control
         Panel</button>
+    <button mat-button *ngIf="isLogged == true && isAdmin" routerLink="/admin/bills"
+        routerLinkActive="active">Bills</button>
 </mat-toolbar>

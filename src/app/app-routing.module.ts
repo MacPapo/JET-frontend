@@ -14,34 +14,36 @@ import { ControlPanelComponent } from './components/admin/control-panel/control-
 import { FoodListComponent } from './components/food/food-list/food-list.component';
 import { DrinkListComponent } from './components/drink/drink-list/drink-list.component';
 import { TableListComponent } from './components/table/table-list/table-list.component';
+import { BillsComponent } from './components/admin/bills/bills.component';;
 
 const routes: Routes = [
-    { path: '', component: HomeComponent },
-    { path: 'login', component: LoginComponent },
-    { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
-    { path: 'register', component: RegisterComponent },
+  { path: '', component: HomeComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent, canActivate: [AuthGuard] },
+  { path: 'register', component: RegisterComponent },
 
-    // Waiter
-    { path: 'waiter/home', component: WaiterHomeComponent, canActivate: [AuthGuard] },
+  // Waiter
+  { path: 'waiter/home', component: WaiterHomeComponent, canActivate: [AuthGuard] },
 
-    // Cooker
-    { path: 'cooker/home', component: CookerHomeComponent, canActivate: [AuthGuard]},
+  // Cooker
+  { path: 'cooker/home', component: CookerHomeComponent, canActivate: [AuthGuard] },
 
-    // Bartender
-    { path: 'bartender/home', component: BartenderHomeComponent, canActivate: [AuthGuard] },
+  // Bartender
+  { path: 'bartender/home', component: BartenderHomeComponent, canActivate: [AuthGuard] },
 
-    // Cashier
-    { path: 'cashier/home', component: CashierHomeComponent, canActivate: [AuthGuard] },
+  // Cashier
+  { path: 'cashier/home', component: CashierHomeComponent, canActivate: [AuthGuard] },
 
-    // Admin
-    { path: 'admin', component: ControlPanelComponent, canActivate: [AuthGuard] },
-    { path: 'admin/foods', component: FoodListComponent, canActivate: [AuthGuard] },
-    { path: 'admin/drinks', component: DrinkListComponent, canActivate: [AuthGuard] },
-    { path: 'admin/tables', component: TableListComponent, canActivate: [AuthGuard] },
+  // Admin
+  { path: 'admin', component: ControlPanelComponent, canActivate: [AuthGuard] },
+  { path: 'admin/foods', component: FoodListComponent, canActivate: [AuthGuard] },
+  { path: 'admin/drinks', component: DrinkListComponent, canActivate: [AuthGuard] },
+  { path: 'admin/tables', component: TableListComponent, canActivate: [AuthGuard] },
+  { path: 'admin/bills', component: BillsComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}
