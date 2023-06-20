@@ -25,10 +25,9 @@ export class BartenderHomeComponent {
     });
   }
 
-
   ngOnInit(): void {
     this.socketService.connect();
-    this.socketService.on('cooker-bartender-new-order', (message) => {
+    this.socketService.on('bartender-new-order', (message) => {
       this.openSnackBar(message, 'Close', 4000);
       this.getOrders();
     });

@@ -58,7 +58,15 @@ export class WaiterHomeComponent {
         this.getOrders();
 
         if (result && result !== 'error') {
-          this.socketService.emit('new-order', result);
+          const foods = result.data.foods;
+          const drinks = result.data.drinks;
+
+          if (foods.length > 0) {
+            this.socketService.emit('cooker-new-order', result.data);
+          }
+          if (drinks.length > 0) {
+            this.socketService.emit('bartender-new-order', result.data);
+          }
         }
       });
   }
