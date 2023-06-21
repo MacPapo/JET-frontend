@@ -1,9 +1,7 @@
-.navbar-button.active {
-  background-color: #f5f5f5;
-  color: #000;
-  /* Add any other styles you want for the active state */
+.navbar {
+    justify-content: space-between;
 }
 
-.spacer {
-  margin-right: 10px; /* Adjust the value to your desired spacing */
+button {
+    margin-right: 1rem;
 }

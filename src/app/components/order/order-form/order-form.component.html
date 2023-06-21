@@ -1,42 +1,85 @@
 <h2 mat-dialog-title>Add New Order</h2>
 <mat-dialog-content class="mat-typography">
 
-    <div class="form-fields" style="margin-top: 5px;">
-        <div class="form-field">
-            <mat-form-field appearance="outline">
-                <mat-label>Clients</mat-label>
-                <input matInput [formControl]="clients" type="number">
-                <mat-error *ngIf="clients.invalid && clients.errors?.['required']">Clients is required</mat-error>
-                <mat-error *ngIf="clients.invalid && clients.errors?.['min']">Invalid format</mat-error>
-            </mat-form-field>
-        </div>
+  <div class="form-fields" style="margin-top: 5px;">
+    
+    <div class="form-field">
 
-        <div class="form-field">
-            <mat-form-field appearance="outline">
-                <mat-label>Table</mat-label>
-                <mat-select [formControl]="table">
-                    <mat-option *ngIf="tables.length === 0" disabled>No tables available</mat-option>
-                    <mat-option *ngFor="let table of tables" [value]="table.number">{{ table.number }}</mat-option>
-                </mat-select>
-                <mat-error *ngIf="table.invalid">Table is
-                    required</mat-error>
-            </mat-form-field>
-        </div>
+      <mat-form-field appearance="outline">
+
+        <mat-label>Clients</mat-label>
+        <input matInput required [formControl]="clients" type="number">
+        
+        <mat-error
+          *ngIf="clients.invalid && clients.errors?.['required']">
+          Clients is required
+        </mat-error>
+        <mat-error
+          *ngIf="clients.invalid && clients.errors?.['min']">
+          Invalid format
+        </mat-error>
+        
+        <mat-hint>Number of clients</mat-hint>
+      </mat-form-field>
 
     </div>
 
-    <mat-tab-group>
-        <mat-tab label="Foods">
-            <app-waiter-food-list (foodsAddedToOrder)="handleFoodsAddedToOrder($event)"></app-waiter-food-list>
-        </mat-tab>
-        <mat-tab label="Drinks">
-            <app-waiter-drink-list (drinksAddedToOrder)="handleDrinksAddedToOrder($event)"></app-waiter-drink-list>
-        </mat-tab>
-    </mat-tab-group>
+    <div class="form-field">
+      
+      <mat-form-field appearance="outline">
+        
+        <mat-label>Table</mat-label>
+        <mat-select [formControl]="table">
+          <mat-option
+            *ngIf="tables.length === 0"
+            disabled>
+            No tables available
+          </mat-option>
+
+          <mat-option
+            *ngFor="let table of tables"
+            [value]="table.number">
+            {{ table.number }}
+          </mat-option>
+        </mat-select>
+        
+        <mat-error
+          *ngIf="table.invalid">
+          Table is required
+        </mat-error>
+      </mat-form-field>
+      
+    </div>
+
+  </div>
+
+  <mat-tab-group>
+    <mat-tab label="Foods">
+      <app-waiter-food-list
+        (foodsAddedToOrder)="handleFoodsAddedToOrder($event)">
+      </app-waiter-food-list>
+    </mat-tab>
+
+    <mat-tab label="Drinks">
+      <app-waiter-drink-list
+        (drinksAddedToOrder)="handleDrinksAddedToOrder($event)">
+      </app-waiter-drink-list>
+    </mat-tab>
+  </mat-tab-group>
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button (click)="addOrder()" cdkFocusInitial>Add Order</button>
+  <button
+    mat-button
+    mat-dialog-close>
+    Cancel
+  </button>
+
+  <button
+    mat-button
+    (click)="addOrder()"
+    cdkFocusInitial>
+    Add Order
+  </button>
 </mat-dialog-actions>
