@@ -45,6 +45,7 @@ import { WaiterDrinkListComponent } from './components/drink/waiter-drink-list/w
 import { OrderListComponent } from './components/order/order-list/order-list.component';
 import { BillsComponent } from './components/admin/bills/bills.component';
 import { DatePipe } from '@angular/common';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
     declarations: [
@@ -75,6 +76,7 @@ import { DatePipe } from '@angular/common';
         WaiterDrinkListComponent,
         OrderListComponent,
         BillsComponent,
+        NotFoundComponent,
     ],
     imports: [
         BrowserModule,

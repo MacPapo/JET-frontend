@@ -24,15 +24,6 @@
     </button>
     
     <button
-      mat-raised-button
-      color="warn"
-      *ngIf="isLogged"
-      routerLink="/logout"
-      routerLinkActive="active">
-      Logout
-    </button>
-    
-    <button
       mat-button
       *ngIf="isLogged && isAdmin"
       routerLink="/admin"
@@ -46,6 +37,15 @@
       routerLink="/admin/bills"
       routerLinkActive="active">
       Bills
+    </button>
+
+    <button
+      mat-raised-button
+      color="warn"
+      *ngIf="isLogged"
+      routerLink="/logout"
+      routerLinkActive="active">
+      Logout
     </button>
   </div>
 
