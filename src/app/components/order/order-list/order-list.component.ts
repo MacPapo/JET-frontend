@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
-import Order from 'src/app/interfaces/order.interface';
+import { Order } from 'src/app/interfaces/order.interface';
 
 @Component({
   selector: 'app-order-list',

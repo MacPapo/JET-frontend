@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { DrinkOrder } from 'src/app/interfaces/order.interface';
-import { OrderService, GetDrinkOrdersResponse } from 'src/app/services/order/order.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
 
 @Component({
     selector: 'app-bartender-home',
@@ -9,7 +9,8 @@ import { OrderService, GetDrinkOrdersResponse } from 'src/app/services/order/ord
     styleUrls: ['./bartender-home.component.css']
 })
 export class BartenderHomeComponent {
-    orders: DrinkOrder[] = [];
+    orders: any[] = [];
+    panelOpenState = false;
     role: string = 'bartender';
 
     constructor(private orderService: OrderService,
@@ -21,9 +22,17 @@ export class BartenderHomeComponent {
 
     private getOrders() {
         this.orderService
-            .getDrinkOrders(this.role)
-            .subscribe((response: GetDrinkOrdersResponse) => {
+            .getProductOrders(this.role)
+            .subscribe((response: GetCacheOrdersResponse) => {
                 this.orders = response.data;
+            });
+    }
+
+    private getOrderDetails(id: string) {
+        this.orderService
+            .getOrderDetail(this.role, id)
+            .subscribe((response: any) => {
+                console.log(response);
             });
     }
 }

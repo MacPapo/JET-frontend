@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { FoodOrder } from 'src/app/interfaces/order.interface';
-import { OrderService, GetFoodOrdersResponse } from 'src/app/services/order/order.service';
+import { CacheOrder, FoodOrder } from 'src/app/interfaces/order.interface';
+import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
 
 @Component({
     selector: 'app-cooker-home',
@@ -9,7 +9,7 @@ import { OrderService, GetFoodOrdersResponse } from 'src/app/services/order/orde
     styleUrls: ['./cooker-home.component.css']
 })
 export class CookerHomeComponent {
-    orders: FoodOrder[] = [];
+    orders: CacheOrder[] = [];
     role: string = 'cooker';
 
     constructor(private orderService: OrderService,
@@ -21,8 +21,8 @@ export class CookerHomeComponent {
 
     private getOrders() {
         this.orderService
-            .getFoodOrders(this.role)
-            .subscribe((response: GetFoodOrdersResponse) => {
+            .getProductOrders(this.role)
+            .subscribe((response: GetCacheOrdersResponse) => {
                 this.orders = response.data;
             });
     }

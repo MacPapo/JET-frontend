@@ -9,6 +9,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/error-dialog/error-dialog.component';
 import { JwtService } from 'src/app/services/auth/jwt.service';
+import { OrderStatus } from 'src/app/interfaces/order-status.enum';
+import { Order } from 'src/app/interfaces/order.interface';
 
 interface FoodQuantity extends Food {
     foodQuantity: number;
@@ -101,13 +103,14 @@ export class OrderFormComponent implements OnInit {
                 waiter: this.waiter,
                 foods: this.mapFoodsToProducts(this.foods),
                 drinks: this.mapDrinksToProducts(this.drinks),
-            }).subscribe((order) => {
-                this.openSnackBar('Order added successfully', 'Close', 4000);
-                this.dialogRef.close(this.table.value!);
-            }, (error) => {
-                this.openDialog('500ms', '500ms', 'Order not added', error.error.message);
-                this.dialogRef.close('error');
-            });
+            } as Order)
+                .subscribe((order) => {
+                    this.openSnackBar('Order added successfully', 'Close', 4000);
+                    this.dialogRef.close(this.table.value!);
+                }, (error) => {
+                    this.openDialog('500ms', '500ms', 'Order not added', error.error.message);
+                    this.dialogRef.close('error');
+                });
         }
     }
 

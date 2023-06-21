@@ -1,24 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import Order, { FoodOrder, DrinkOrder } from 'src/app/interfaces/order.interface';
+import { HttpClient } from '@angular/common/http';
+import { CacheOrder, Order } from 'src/app/interfaces/order.interface';
+
+export interface GetCacheOrdersResponse {
+    statusCode: string;
+    message: string;
+    data: CacheOrder[];
+}
 
 export interface GetOrdersResponse {
     statusCode: string;
     message: string;
     data: Order[];
-}
-
-export interface GetFoodOrdersResponse {
-    statusCode: string;
-    message: string;
-    data: FoodOrder[];
-}
-
-export interface GetDrinkOrdersResponse {
-    statusCode: string;
-    message: string;
-    data: DrinkOrder[];
 }
 
 @Injectable({
@@ -29,35 +23,33 @@ export class OrderService {
 
     constructor(private http: HttpClient) {}
 
-    apiRole(role: string): string {
-        return `${this.apiUrl}/${role}`;
+    apiRole(role: string): string { return `${this.apiUrl}/${role}`; }
+
+    getProductOrders(role: string): Observable<GetCacheOrdersResponse> {
+        return this.http.get<GetCacheOrdersResponse>(this.apiRole(role));
     }
 
     getOrders(role: string): Observable<GetOrdersResponse> {
         return this.http.get<GetOrdersResponse>(this.apiRole(role));
     }
 
-    getFoodOrders(role: string): Observable<GetFoodOrdersResponse> {
-        return this.http.get<GetFoodOrdersResponse>(this.apiRole(role));
+    getOrder(role: string, id: string): Observable<CacheOrder> {
+        return this.http.get<CacheOrder>(this.apiRole(role) + `/${id}`);
     }
 
-    getDrinkOrders(role: string): Observable<GetDrinkOrdersResponse> {
-        return this.http.get<GetDrinkOrdersResponse>(`${this.apiUrl}/${role}`);
-    }
-
-    getOrder(role: string, id: string): Observable<Order> {
-        return this.http.get<Order>(this.apiRole(role) + `/${id}`);
+    getOrderDetail(role: string, id: string): Observable<CacheOrder> {
+        return this.http.get<CacheOrder>(this.apiRole(role) + `/detail/${id}`);
     }
 
     addOrder(role: string, order: Order): Observable<Order> {
         return this.http.post<Order>(this.apiRole(role), order);
     }
 
-    editOrder(role: string, order: Order): Observable<Order> {
-        return this.http.put<Order>(this.apiRole(role) + `/${order._id}`, order);
+    editOrder(role: string, order: CacheOrder): Observable<CacheOrder> {
+        return this.http.put<CacheOrder>(this.apiRole(role) + `/${order._id}`, order);
     }
 
-    deleteOrder(role: string, id: string): Observable<Order> {
-        return this.http.delete<Order>(this.apiRole(role) + `/${id}`);
+    deleteOrder(role: string, id: string): Observable<CacheOrder> {
+        return this.http.delete<CacheOrder>(this.apiRole(role) + `/${id}`);
     }
 }

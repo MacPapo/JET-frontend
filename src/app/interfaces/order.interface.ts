@@ -40,12 +40,32 @@ export interface DrinkOrder {
     createdAt: Date,
 }
 
-export default interface Order {
-    _id?: string,
-    clients: number,
-    table: number,
-    waiter: string,
-    foods?: Array<Product>,
-    drinks?: Array<Product>,
-    status?: OrderStatus
+export interface ProductOrdered {
+    _id: string;
+    quantity: number;
+}
+
+export interface CacheProductOrdered {
+    _id: string;
+    name: string;
+    productionTime: number;
+    quantity: number;
+    checked: boolean;
+}
+
+export interface Order {
+    _id: string;
+    clients: number;
+    table: number;
+    waiter: string;
+    foods:  CacheProductOrdered[] | ProductOrdered[];
+    drinks: CacheProductOrdered[] | ProductOrdered[];
+    status: OrderStatus;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface CacheOrder extends Order {
+    checkedFood: boolean;
+    checkedDrinks: boolean;
 }

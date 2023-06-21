@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { OrderFormComponent } from '../../order/order-form/order-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from 'src/app/services/order/order.service';
-import Order from 'src/app/interfaces/order.interface';
+import { Order } from 'src/app/interfaces/order.interface';
 import { SocketService } from 'src/app/services/socket/socket.service';
 
 interface GetOrderResponse {
