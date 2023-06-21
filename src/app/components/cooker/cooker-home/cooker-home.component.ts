@@ -4,6 +4,7 @@ import { FoodOrder } from 'src/app/interfaces/order.interface';
 import { OrderService, GetFoodOrdersResponse } from 'src/app/services/order/order.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrderStatus } from 'src/app/interfaces/order-status.enum';
 
 @Component({
   selector: 'app-cooker-home',
@@ -45,5 +46,9 @@ export class CookerHomeComponent {
       .subscribe((response: GetFoodOrdersResponse) => {
         this.orders = response.data;
       });
+  }
+
+  completeOrder(order: FoodOrder) {
+    this.socketService.emit('cooker-complete-order', order);
   }
 }

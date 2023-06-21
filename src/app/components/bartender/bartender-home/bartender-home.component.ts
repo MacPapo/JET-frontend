@@ -45,4 +45,8 @@ export class BartenderHomeComponent {
         this.orders = response.data;
       });
   }
+
+  completeOrder(order: DrinkOrder) {
+    this.socketService.emit('cooker-complete-order', order);
+  }
 }
