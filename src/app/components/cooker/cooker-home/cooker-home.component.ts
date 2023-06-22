@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
+
 import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
+import { SocketService } from 'src/app/services/socket/socket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrderStatus } from 'src/app/interfaces/order-status.enum';
 
 @Component({
     selector: 'app-cooker-home',
@@ -8,15 +12,34 @@ import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/ord
     styleUrls: ['./cooker-home.component.css']
 })
 export class CookerHomeComponent {
+
     orders: any[] = [];
     panelOpenState: boolean = false;
     role: string = 'cooker';
 
     constructor(private orderService: OrderService,
-        private datePipe: DatePipe) {}
+        private datePipe: DatePipe,
+        private socketService: SocketService,
+        private snackBar: MatSnackBar) {}
+
 
     ngOnInit(): void {
+        this.socketService.connect();
+        this.socketService.on('cooker-new-order', (message) => {
+            this.openSnackBar(message, 'Close', 4000);
+            this.getOrders();
+        });
         this.getOrders();
+    }
+
+    ngOnDestroy(): void {
+        this.socketService.disconnect();
+    }
+
+    private openSnackBar(message: string, action: string, duration: number) {
+        this.snackBar.open(message, action, {
+            duration,
+        });
     }
 
     private getOrders() {
@@ -72,6 +95,10 @@ export class CookerHomeComponent {
                 order.foods.forEach((t: any) => (t.checked = completed));
             }
         });
+    }
+
+    completeOrder(order: any) {
+        this.socketService.emit('cooker-complete-order', order);
     }
 
 }

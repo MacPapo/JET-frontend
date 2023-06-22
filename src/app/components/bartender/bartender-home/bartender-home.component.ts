@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
+import { SocketService } from 'src/app/services/socket/socket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
 
 @Component({
     selector: 'app-bartender-home',
@@ -13,11 +16,29 @@ export class BartenderHomeComponent {
     role: string = 'bartender';
 
     constructor(private orderService: OrderService,
-                private datePipe: DatePipe) {}
+        private datePipe: DatePipe,
+        private socketService: SocketService,
+        private snackBar: MatSnackBar) {}
 
     ngOnInit(): void {
+        this.socketService.connect();
+        this.socketService.on('bartender-new-order', (message) => {
+            this.openSnackBar(message, 'Close', 4000);
+            this.getOrders();
+        });
         this.getOrders();
     }
+
+    ngOnDestroy(): void {
+        this.socketService.disconnect();
+    }
+
+    private openSnackBar(message: string, action: string, duration: number) {
+        this.snackBar.open(message, action, {
+            duration,
+        });
+    }
+
 
     private getOrders() {
         this.orderService
@@ -26,7 +47,7 @@ export class BartenderHomeComponent {
                 this.orders = response.data;
             });
     }
- 
+
 
     toggleAllDrinks(id: string) {
         this.orders.forEach((order: any) => {
@@ -74,4 +95,12 @@ export class BartenderHomeComponent {
             }
         });
     }
+
+    completeOrder(order: any) {
+        this.socketService.emit('bartender-complete-order', order);
+    }
+
 }
+
+
+

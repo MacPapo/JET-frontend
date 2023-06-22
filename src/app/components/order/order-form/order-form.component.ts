@@ -9,8 +9,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ErrorDialogComponent } from '../../shared/error-dialog/error-dialog.component';
 import { JwtService } from 'src/app/services/auth/jwt.service';
-import { OrderStatus } from 'src/app/interfaces/order-status.enum';
-import { Order } from 'src/app/interfaces/order.interface';
 
 interface FoodQuantity extends Food {
     foodQuantity: number;
@@ -39,17 +37,17 @@ export class OrderFormComponent implements OnInit {
     drinks: DrinkQuantity[] = [];
 
     constructor(private tableService: TableService,
-                private orderService: OrderService,
-                public dialogRef: MatDialogRef<OrderFormComponent>,
-                private dialog: MatDialog,
-                private snackBar: MatSnackBar,
-                private jwtService: JwtService) {}
+        private orderService: OrderService,
+        public dialogRef: MatDialogRef<OrderFormComponent>,
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar,
+        private jwtService: JwtService) {}
 
     ngOnInit(): void {
         this.waiter = this.jwtService
             .getLoginData()
             .userId;
-        
+
         this.tableService
             .getTables()
             .subscribe((tables) => {
@@ -60,9 +58,9 @@ export class OrderFormComponent implements OnInit {
     }
 
     private openDialog(enterAnimationDuration: string,
-                       exitAnimationDuration: string,
-                       title: string,
-                       errorMessage: string): void {
+        exitAnimationDuration: string,
+        title: string,
+        errorMessage: string): void {
         this.dialog
             .open(ErrorDialogComponent, {
                 width: '250px',
@@ -103,14 +101,13 @@ export class OrderFormComponent implements OnInit {
                 waiter: this.waiter,
                 foods: this.mapFoodsToProducts(this.foods),
                 drinks: this.mapDrinksToProducts(this.drinks),
-            } as Order)
-                .subscribe((order) => {
-                    this.openSnackBar('Order added successfully', 'Close', 4000);
-                    this.dialogRef.close(this.table.value!);
-                }, (error) => {
-                    this.openDialog('500ms', '500ms', 'Order not added', error.error.message);
-                    this.dialogRef.close('error');
-                });
+            }).subscribe((order) => {
+                this.openSnackBar('Order added successfully', 'Close', 4000);
+                this.dialogRef.close(order);
+            }, (error) => {
+                this.openDialog('500ms', '500ms', 'Order not added', error.error.message);
+                this.dialogRef.close('error');
+            });
         }
     }
 
@@ -122,6 +119,9 @@ export class OrderFormComponent implements OnInit {
         this.drinks = drinks;
     }
 
+
+
+
     private triggerValidators(): void {
         if (this.clients.untouched || this.table.untouched) {
             this.clients.updateValueAndValidity();
@@ -130,4 +130,5 @@ export class OrderFormComponent implements OnInit {
         this.clients.markAsTouched();
         this.table.markAsTouched();
     }
+
 }
