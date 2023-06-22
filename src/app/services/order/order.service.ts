@@ -29,8 +29,8 @@ export class OrderService {
         return this.http.get<GetCacheOrdersResponse>(this.apiRole(role));
     }
 
-    getOrders(role: string): Observable<GetOrdersResponse> {
-        return this.http.get<GetOrdersResponse>(this.apiRole(role));
+    getOrders(role: string): Observable<GetCacheOrdersResponse> {
+        return this.http.get<GetCacheOrdersResponse>(this.apiRole(role));
     }
 
     getOrder(role: string, id: string): Observable<CacheOrder> {

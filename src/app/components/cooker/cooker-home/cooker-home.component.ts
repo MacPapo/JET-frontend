@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-
 import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { OrderStatus } from 'src/app/interfaces/order-status.enum';
+import { CacheOrder } from 'src/app/interfaces/order.interface';
 
 @Component({
     selector: 'app-cooker-home',
@@ -12,20 +11,19 @@ import { OrderStatus } from 'src/app/interfaces/order-status.enum';
     styleUrls: ['./cooker-home.component.css']
 })
 export class CookerHomeComponent {
-
-    orders: any[] = [];
-    panelOpenState: boolean = false;
+    orders: CacheOrder[] = [];
     role: string = 'cooker';
 
-    constructor(private orderService: OrderService,
+    constructor(
+        private orderService: OrderService,
         private datePipe: DatePipe,
         private socketService: SocketService,
-        private snackBar: MatSnackBar) {}
-
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.socketService.connect();
-        this.socketService.on('cooker-new-order', (message) => {
+        this.socketService.on('bartender-new-order', (message) => {
             this.openSnackBar(message, 'Close', 4000);
             this.getOrders();
         });
@@ -42,6 +40,7 @@ export class CookerHomeComponent {
         });
     }
 
+
     private getOrders() {
         this.orderService
             .getProductOrders(this.role)
@@ -50,24 +49,18 @@ export class CookerHomeComponent {
             });
     }
 
-    toggleAllFoods(id: string) {
-        this.orders.forEach((order: any) => {
-            if (order._id === id) {
-                order.foods.forEach((food: any) => {
-                    food.checked = order.checkedFood;
-                });
 
-                console.log(order);
-                console.log("CHIAMAMI");
-                this.updateOrder(order);
-            }
+    toggleAllFoods(id: string) {
+        this.orders.forEach((order: CacheOrder) => {
+            if (order._id === id)
+                order.foods.map((food: any) => (food.checked = order.checkedFoods));
         });
     }
 
     updateAllComplete(id: string) {
-        this.orders.forEach((order: any) => {
+        this.orders.forEach((order: CacheOrder) => {
             if (order._id === id) {
-                order.checkedFood =
+                order.checkedFoods =
                     order.foods != null &&
                     order.foods.every((t: any) => t.checked);
             }
@@ -77,33 +70,26 @@ export class CookerHomeComponent {
     someComplete(id: string): boolean {
         let result = false;
 
-        this.orders.forEach((order: any) => {
-            if (order._id === id) {
-                if (order.foods == null) {
-                    result = false;
-                } else {
-                    result =
-                        order.foods.some((t: any) => t.checked) &&
-                        !order.foods.every((t: any) => t.checked);
-                }
-            }
+        this.orders.forEach((order: CacheOrder) => {
+            if (order._id === id)
+                !order.foods
+                    ? (result = false)
+                    : (result = order.foods.filter((t: any) => t.checked).length > 0 && !order.checkedFoods);
         });
 
         return result;
     }
 
     setAll(id: string, completed: boolean) {
-        this.orders.forEach((order: any) => {
+        this.orders.forEach((order: CacheOrder) => {
             if (order._id === id) {
-                order.checkedFood = completed;
+                order.checkedFoods = completed;
                 order.foods.forEach((t: any) => (t.checked = completed));
             }
         });
     }
 
-    updateOrder(order: any) {
-        console.log(order.checkedFood);
-        console.log("EMETTO");
-        this.socketService.emit('cooker-complete-order', order);
+    completeOrder(order: any) {
+        this.socketService.emit('bartender-complete-order', order);
     }
 }

@@ -20,7 +20,7 @@
         <span>
           <mat-checkbox
             class="checkbox-margin"
-            [checked]="order.checkedDrink"
+            [checked]="order.checkedDrinks"
             [indeterminate]="someComplete(order._id)"
             (change)="setAll(order._id, $event.checked)">
             Seleziona tutti
