@@ -73,11 +73,5 @@ export class BartenderHomeComponent {
                 order.drinks.forEach((t: any) => (t.checked = completed));
             }
         });
-    }   private getOrderDetails(id: string) {
-        this.orderService
-            .getOrderDetail(this.role, id)
-            .subscribe((response: any) => {
-                console.log(response);
-            });
     }
 }
