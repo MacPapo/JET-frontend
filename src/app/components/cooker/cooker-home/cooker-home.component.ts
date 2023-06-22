@@ -56,6 +56,10 @@ export class CookerHomeComponent {
                 order.foods.forEach((food: any) => {
                     food.checked = order.checkedFood;
                 });
+
+                console.log(order);
+                console.log("CHIAMAMI");
+                this.updateOrder(order);
             }
         });
     }
@@ -97,8 +101,9 @@ export class CookerHomeComponent {
         });
     }
 
-    completeOrder(order: any) {
+    updateOrder(order: any) {
+        console.log(order.checkedFood);
+        console.log("EMETTO");
         this.socketService.emit('cooker-complete-order', order);
     }
-
 }
