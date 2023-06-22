@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { DatePipe } from '@angular/common';
-import { MatExpansionModule } from '@angular/material/expansion';
 import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
 
 @Component({
@@ -27,8 +26,54 @@ export class BartenderHomeComponent {
                 this.orders = response.data;
             });
     }
+ 
 
-    private getOrderDetails(id: string) {
+    toggleAllDrinks(id: string) {
+        this.orders.forEach((order: any) => {
+            if (order._id === id) {
+                order.drinks.forEach((drink: any) => {
+                    drink.checked = order.checkedDrink;
+                });
+            }
+        });
+    }
+
+    updateAllComplete(id: string) {
+        this.orders.forEach((order: any) => {
+            if (order._id === id) {
+                order.checkedDrink =
+                    order.drinks != null &&
+                    order.drinks.every((t: any) => t.checked);
+            }
+        });
+    }
+
+    someComplete(id: string): boolean {
+        let result = false;
+
+        this.orders.forEach((order: any) => {
+            if (order._id === id) {
+                if (order.drinks == null) {
+                    result = false;
+                } else {
+                    result =
+                        order.drinks.some((t: any) => t.checked) &&
+                        !order.drinks.every((t: any) => t.checked);
+                }
+            }
+        });
+
+        return result;
+    }
+
+    setAll(id: string, completed: boolean) {
+        this.orders.forEach((order: any) => {
+            if (order._id === id) {
+                order.checkedDrink = completed;
+                order.drinks.forEach((t: any) => (t.checked = completed));
+            }
+        });
+    }   private getOrderDetails(id: string) {
         this.orderService
             .getOrderDetail(this.role, id)
             .subscribe((response: any) => {
