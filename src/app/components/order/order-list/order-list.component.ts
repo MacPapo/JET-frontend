@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { Order } from 'src/app/interfaces/order.interface';
+import { SocketService } from 'src/app/services/socket/socket.service';
 
 @Component({
   selector: 'app-order-list',
@@ -10,7 +11,13 @@ export class OrderListComponent implements OnChanges {
   @Input() status: string = '';
   @Input() orders: Order[] = [];
 
-  constructor() {}
+  constructor(private socketService: SocketService) {}
+
+  ngOnInit(): void {
+    this.socketService.on('waiter-complete-order', (message) => {
+      //console.log(message);
+    });
+  }
 
   ngOnChanges(): void {
     this.orders = this.orders.filter((order) => {
@@ -19,6 +26,6 @@ export class OrderListComponent implements OnChanges {
   }
 
   markAsDelivered(order: Order): void {
-    console.log(order);
+    this.socketService.emit('waiter-complete-order', order);
   }
 }
