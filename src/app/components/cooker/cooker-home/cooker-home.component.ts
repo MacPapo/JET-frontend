@@ -4,6 +4,7 @@ import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/ord
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CacheOrder } from 'src/app/interfaces/order.interface';
+import { CacheProductOrdered } from 'src/app/interfaces/order.interface';
 
 @Component({
     selector: 'app-cooker-home',
@@ -23,11 +24,17 @@ export class CookerHomeComponent {
 
     ngOnInit(): void {
         this.socketService.connect();
-        this.socketService.on('bartender-new-order', (message) => {
+
+        this.getOrders();
+
+        this.socketService.on('cooker-complete-order', () => {
+            this.getOrders();
+        });
+
+        this.socketService.on('cooker-new-order', (message) => {
             this.openSnackBar(message, 'Close', 4000);
             this.getOrders();
         });
-        this.getOrders();
     }
 
     ngOnDestroy(): void {
@@ -81,15 +88,15 @@ export class CookerHomeComponent {
     }
 
     setAll(id: string, completed: boolean) {
+        let selectedOrder = null;
         this.orders.forEach((order: CacheOrder) => {
             if (order._id === id) {
                 order.checkedFoods = completed;
-                order.foods.forEach((t: any) => (t.checked = completed));
+                order.foods.forEach((t: CacheProductOrdered) => (t.checked = completed));
+                selectedOrder = order;
             }
         });
-    }
 
-    completeOrder(order: any) {
-        this.socketService.emit('bartender-complete-order', order);
+        this.socketService.emit('cooker-complete-order', selectedOrder);
     }
 }

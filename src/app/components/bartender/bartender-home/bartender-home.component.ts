@@ -4,6 +4,7 @@ import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/ord
 import { SocketService } from 'src/app/services/socket/socket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CacheOrder } from 'src/app/interfaces/order.interface';
+import { CacheProductOrdered } from 'src/app/interfaces/order.interface';
 
 @Component({
     selector: 'app-bartender-home',
@@ -23,11 +24,17 @@ export class BartenderHomeComponent {
 
     ngOnInit(): void {
         this.socketService.connect();
+
+        this.getOrders();
+
+        this.socketService.on('bartender-complete-order', () => {
+            this.getOrders();
+        });
+
         this.socketService.on('bartender-new-order', (message) => {
             this.openSnackBar(message, 'Close', 4000);
             this.getOrders();
         });
-        this.getOrders();
     }
 
     ngOnDestroy(): void {
@@ -81,19 +88,15 @@ export class BartenderHomeComponent {
     }
 
     setAll(id: string, completed: boolean) {
+        let selectedOrder = null;
         this.orders.forEach((order: CacheOrder) => {
             if (order._id === id) {
                 order.checkedDrinks = completed;
-                order.drinks.forEach((t: any) => (t.checked = completed));
+                order.drinks.forEach((t: CacheProductOrdered) => (t.checked = completed));
+                selectedOrder = order;
             }
         });
-    }
 
-    completeOrder(order: any) {
-        this.socketService.emit('bartender-complete-order', order);
+        this.socketService.emit('bartender-complete-order', selectedOrder);
     }
-
 }
-
-
-

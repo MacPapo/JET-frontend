@@ -3,6 +3,7 @@ import { OrderFormComponent } from '../../order/order-form/order-form.component'
 import { MatDialog } from '@angular/material/dialog';
 import { GetCacheOrdersResponse, OrderService } from 'src/app/services/order/order.service';
 import { CacheOrder, Order } from 'src/app/interfaces/order.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { SocketService } from 'src/app/services/socket/socket.service';
 
 @Component({
@@ -17,15 +18,33 @@ export class WaiterHomeComponent {
     constructor(
         public dialog: MatDialog,
         private orderService: OrderService,
-        private socketService: SocketService) {}
+        private socketService: SocketService,
+        private snackBar: MatSnackBar
+    ) {}
 
     ngOnInit(): void {
         this.socketService.connect();
+
+        this.socketService.on('waiter-new-order', () => {
+            this.getOrders();
+        });
+        
+        this.socketService.on('waiter-update-order', (message) => {
+            this.openSnackBar(message, 'Close', 4000);
+            this.getOrders();
+        });
+        
         this.getOrders();
     }
 
     ngOnDestroy(): void {
         this.socketService.disconnect();
+    }
+
+    private openSnackBar(message: string, action: string, duration: number) {
+        this.snackBar.open(message, action, {
+            duration,
+        });
     }
 
     private getOrders() {
@@ -52,9 +71,8 @@ export class WaiterHomeComponent {
         dialogRef
             .afterClosed()
             .subscribe(result => {
-                this.getOrders();
-
                 if (result && result !== 'error') {
+                    this.socketService.emit('waiter-new-order', result.data);
                     if (result.data.foods.length  > 0) this.socketService.emit('cooker-new-order', result.data);
                     if (result.data.drinks.length > 0) this.socketService.emit('bartender-new-order', result.data);
                 }
