@@ -25,6 +25,14 @@ export class BillsComponent {
 
   ngOnInit(): void {
     this.getBills();
+    this.socketService.connect();
+    this.socketService.on('cashier-bill-available', (message) => {
+      this.getBills();
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.socketService.disconnect();
   }
 
   private getBills() {

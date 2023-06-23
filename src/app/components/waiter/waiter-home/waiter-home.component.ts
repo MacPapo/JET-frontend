@@ -37,6 +37,7 @@ export class WaiterHomeComponent {
     this.socketService.on('waiter-complete-order', (message) => {
       this.openSnackBar(message, 'Close', 4000);
       this.getOrders();
+      this.socketService.emit('cashier-bill-available', 'New bill available');
     });
 
     this.getOrders();
