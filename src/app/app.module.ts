@@ -46,6 +46,7 @@ import { OrderListComponent } from './components/order/order-list/order-list.com
 import { BillsComponent } from './components/admin/bills/bills.component';
 import { DatePipe } from '@angular/common';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { BillFormComponent } from './components/bills/bill-form/bill-form.component';
 
 @NgModule({
     declarations: [
@@ -77,6 +78,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
         OrderListComponent,
         BillsComponent,
         NotFoundComponent,
+        BillFormComponent,
     ],
     imports: [
         BrowserModule,
