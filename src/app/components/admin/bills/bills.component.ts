@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { BillService } from 'src/app/services/bill/bill.service';
-import { SocketService } from 'src/app/services/socket/socket.service';
 import { MatDialog } from '@angular/material/dialog';
 import { Bill } from 'src/app/interfaces/bill.interface';
 
@@ -19,20 +18,12 @@ export class BillsComponent {
   bills: Bill[] = [];
 
   constructor(
-    public dialog: MatDialog,
-    private billService: BillService,
-    private socketService: SocketService) {}
-
+      public dialog: MatDialog,
+      private billService: BillService
+  ) { }
+    
   ngOnInit(): void {
     this.getBills();
-    this.socketService.connect();
-    this.socketService.on('cashier-bill-available', (message) => {
-      this.getBills();
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.socketService.disconnect();
   }
 
   private getBills() {

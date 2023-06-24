@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
@@ -11,7 +11,7 @@ import { CacheProductOrdered } from 'src/app/interfaces/order.interface';
     templateUrl: './bartender-home.component.html',
     styleUrls: ['./bartender-home.component.css']
 })
-export class BartenderHomeComponent {
+export class BartenderHomeComponent implements OnInit, OnDestroy {
     orders: CacheOrder[] = [];
     role: string = 'bartender';
 
@@ -38,6 +38,7 @@ export class BartenderHomeComponent {
     }
 
     ngOnDestroy(): void {
+        console.log('destroyed bartender socket');
         this.socketService.disconnect();
     }
 

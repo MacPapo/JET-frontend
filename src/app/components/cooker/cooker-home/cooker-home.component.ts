@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { OrderService, GetCacheOrdersResponse } from 'src/app/services/order/order.service';
 import { SocketService } from 'src/app/services/socket/socket.service';
@@ -11,7 +11,7 @@ import { CacheProductOrdered } from 'src/app/interfaces/order.interface';
     templateUrl: './cooker-home.component.html',
     styleUrls: ['./cooker-home.component.css']
 })
-export class CookerHomeComponent {
+export class CookerHomeComponent implements OnInit, OnDestroy {
     orders: CacheOrder[] = [];
     role: string = 'cooker';
 
@@ -38,6 +38,7 @@ export class CookerHomeComponent {
     }
 
     ngOnDestroy(): void {
+        console.log('destroyed cooker socket');
         this.socketService.disconnect();
     }
 
