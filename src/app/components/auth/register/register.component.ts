@@ -46,7 +46,6 @@ export class RegisterComponent {
 
   register() {
     var roles: string[] = [this.role.value!];
-    console.log(this.isAdmin.value);
     if (this.isAdmin.value == true) roles.push('ADMIN');
 
     this.registerService.register(this.email.value!,

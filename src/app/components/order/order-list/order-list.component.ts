@@ -13,12 +13,6 @@ export class OrderListComponent implements OnChanges {
 
   constructor(private socketService: SocketService) {}
 
-  ngOnInit(): void {
-    this.socketService.on('waiter-complete-order', (message) => {
-      //console.log(message);
-    });
-  }
-
   ngOnChanges(): void {
     this.orders = this.orders.filter((order) => {
       return order.status === this.status;

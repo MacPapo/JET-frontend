@@ -98,7 +98,6 @@ export class FoodFormComponent {
 
   private updateFood(food: Food) {
     food._id = this.data.food!._id;
-    console.log(food);
     this.foodService.editFood(food).subscribe(
       (response: any) => {
         console.log(response);

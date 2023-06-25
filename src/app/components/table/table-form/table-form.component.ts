@@ -93,7 +93,6 @@ export class TableFormComponent {
 
   private updateTable(table: Table) {
     table._id = this.data.table!._id;
-    console.log(table);
     this.tableService.editTable(table).subscribe(
       (response: any) => {
         console.log(response);

@@ -98,7 +98,6 @@ export class DrinkFormComponent {
 
   private updateDrink(drink: Drink) {
     drink._id = this.data.drink!._id;
-    console.log(drink);
     this.drinkService.editDrink(drink).subscribe(
       (response: any) => {
         console.log(response);

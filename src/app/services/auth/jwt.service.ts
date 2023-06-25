@@ -86,7 +86,6 @@ export class JwtService {
       .pipe(
         tap(
           response => {
-            console.log('refresh token');
             this.setTokens(response.accessToken, response.refreshToken);
             this.refreshSubject.next(true);
           },
