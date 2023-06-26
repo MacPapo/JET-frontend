@@ -5,7 +5,6 @@ import { SocketService } from 'src/app/services/socket/socket.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { CacheOrder } from 'src/app/interfaces/order.interface';
 import { CacheProductOrdered } from 'src/app/interfaces/order.interface';
->>>>>>> ad6e908aa892740e3a0adab2da1185611ff2c640
 
 @Component({
     selector: 'app-cooker-home',
