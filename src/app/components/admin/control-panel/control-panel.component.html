@@ -1,0 +1,50 @@
+<div class="example-action-buttons">
+    <button mat-button (click)="accordion.openAll()">Expand All</button>
+    <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+</div>
+<mat-accordion class="example-headers-align" multi>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Foods
+            </mat-panel-title>
+            <mat-panel-description>
+                Manage foods
+                <mat-icon>restaurant</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-food-list></app-food-list>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Drinks
+            </mat-panel-title>
+            <mat-panel-description>
+                Manage drinks
+                <mat-icon>local_bar</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-drink-list></app-drink-list>
+
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                Tables
+            </mat-panel-title>
+            <mat-panel-description>
+                Manage tables
+                <mat-icon>table_restaurant</mat-icon>
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+
+        <app-table-list></app-table-list>
+
+    </mat-expansion-panel>
+</mat-accordion>

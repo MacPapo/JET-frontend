@@ -1,0 +1,43 @@
+<div class="accordion-container">
+  <mat-accordion>
+    <mat-expansion-panel
+      hideToggle
+      *ngFor="let order of orders">
+
+      <mat-expansion-panel-header
+        *ngIf="order.foods.length > 0">
+
+        <mat-panel-title>
+          Tavolo {{ order.table }}
+        </mat-panel-title>
+
+        <mat-panel-description>
+          {{ order.waiter }} - {{ order.createdAt | date: 'HH:mm' }} - n.people: {{ order.clients }}
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <section class="checkbox-section">
+        <span>
+          <mat-checkbox
+            class="checkbox-margin"
+            [checked]="order.checkedFoods"
+            [indeterminate]="someComplete(order._id)"
+            (change)="setAll(order._id, $event.checked)">
+            Seleziona tutti
+          </mat-checkbox>
+        </span>
+        <span>
+          <ul>
+            <li *ngFor="let food of order.foods">
+              <mat-checkbox
+                [(ngModel)]="food.checked"
+                (ngModelChange)="updateAllComplete(order._id)">
+                {{ food.name }}: {{ food.quantity }}
+              </mat-checkbox>
+            </li>
+          </ul>
+        </span>
+      </section>      
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>

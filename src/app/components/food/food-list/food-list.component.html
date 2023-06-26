@@ -1,0 +1,43 @@
+<mat-card>
+    <div class="title-container">
+        <button mat-raised-button color="primary" (click)="addFood()">Add New</button>
+    </div>
+
+    <mat-table [dataSource]="foods">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let food">{{ food.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+            <mat-cell *matCellDef="let food">{{ food.price }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let food">{{ food.description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="productionTime">
+            <mat-header-cell *matHeaderCellDef>Production time</mat-header-cell>
+            <mat-cell *matCellDef="let food">{{ food.productionTime }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="manage">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let food">
+                <button mat-icon-button color="primary" (click)="editFood(food)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteFoodDialog(food._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row
+            *matHeaderRowDef="['name', 'price', 'description', 'productionTime', 'manage']"></mat-header-row>
+        <mat-row *matRowDef="let food; columns: ['name', 'price', 'description', 'productionTime', 'manage']"></mat-row>
+    </mat-table>
+</mat-card>

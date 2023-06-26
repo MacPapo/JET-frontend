@@ -1,0 +1,17 @@
+<mat-card>
+    <div class="title-container">
+        <button mat-raised-button color="primary" (click)="addOrder()">Add New Order</button>
+    </div>
+
+    <mat-tab-group>
+        <mat-tab label="Pending">
+            <app-order-list [orders]="orders" [status]="'PENDING'"></app-order-list>
+        </mat-tab>
+        <mat-tab label="Started">
+            <app-order-list [orders]="orders" [status]="'STARTED'"></app-order-list>
+        </mat-tab>
+        <mat-tab label="Completed">
+            <app-order-list [orders]="orders" [status]="'COMPLETED'"></app-order-list>
+        </mat-tab>
+    </mat-tab-group>
+</mat-card>

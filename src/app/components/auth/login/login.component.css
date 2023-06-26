@@ -1,0 +1,17 @@
+.login-card {
+  max-width: 480px;
+  margin: 0 auto;
+  margin-top: 64px;
+}
+
+.card-text {
+  font-size: 28px;
+}
+
+mat-card-content {
+  padding: 16px;
+}
+
+.input-fields {
+  width: 100%;
+}

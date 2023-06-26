@@ -1,0 +1,45 @@
+<h2 mat-dialog-title>Add New Bill</h2>
+<mat-dialog-content class="mat-typography">
+    <div class="form-fields" style="margin-top: 5px;">
+        <div class="form-field">
+
+            <mat-form-field appearance="outline">
+                <mat-label>Order's Table</mat-label>
+                <mat-select [formControl]="table" (selectionChange)="updateSelectedOrder()">
+                    <mat-option *ngIf="orders.length === 0" disabled>
+                        No orders available
+                    </mat-option>
+                    <mat-option *ngFor="let order of orders" [value]="order._id">
+                        {{ order.table }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="table.invalid">
+                    it's required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Total Price</mat-label>
+                <input matInput [value]="totalPrice" readonly>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Order ID</mat-label>
+                <input matInput [value]="selectedOrder?._id" readonly>
+            </mat-form-field>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>
+        Cancel
+    </button>
+    <button mat-button (click)="addBill()" cdkFocusInitial>
+        Add Bill
+    </button>
+</mat-dialog-actions>

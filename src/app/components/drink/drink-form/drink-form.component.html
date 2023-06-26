@@ -1,0 +1,52 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content class="mat-typography">
+
+    <div class="form-fields" style="margin-top: 5px;">
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput [formControl]="name">
+                <mat-error *ngIf="name.invalid">Name is required</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Price</mat-label>
+                <input matInput [formControl]="price" type="number">
+                <mat-error *ngIf="price.invalid && price.errors?.['required']">Price is required</mat-error>
+                <mat-error *ngIf="price.invalid && price.errors?.['min']">Invalid format</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+
+
+    <div class="form-fields">
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput [formControl]="description"></textarea>
+                <mat-error *ngIf="description.invalid">
+                    <ng-container *ngIf="description.errors?.['required']">Description is
+                        required</ng-container>
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="form-field">
+            <mat-form-field appearance="outline">
+                <mat-label>ProductionTime</mat-label>
+                <input matInput [formControl]="productionTime" type="number">
+                <!--<mat-icon matSuffix>timer</mat-icon>-->
+                <mat-error *ngIf="productionTime.invalid && productionTime.errors?.['required']">ProductionTime is
+                    required</mat-error>
+                <mat-error *ngIf="productionTime.invalid && productionTime.errors?.['min']">Invalid format</mat-error>
+            </mat-form-field>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="addDrink()" cdkFocusInitial>{{ buttonText }}</button>
+</mat-dialog-actions>

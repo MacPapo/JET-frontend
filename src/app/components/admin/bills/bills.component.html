@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-table [dataSource]="bills">
+        <ng-container matColumnDef="order">
+            <mat-header-cell *matHeaderCellDef>Order</mat-header-cell>
+            <mat-cell *matCellDef="let bill">{{ bill.order }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="table">
+            <mat-header-cell *matHeaderCellDef>Table</mat-header-cell>
+            <mat-cell *matCellDef="let bill">{{ bill.table }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="totalPrice">
+            <mat-header-cell *matHeaderCellDef>TotalPrice</mat-header-cell>
+            <mat-cell *matCellDef="let bill">{{ bill.totalPrice }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="['order', 'table', 'totalPrice']"></mat-header-row>
+        <mat-row *matRowDef="let bill; columns: ['order', 'table', 'totalPrice']"></mat-row>
+    </mat-table>
+</mat-card>
