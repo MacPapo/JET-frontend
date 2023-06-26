@@ -1,0 +1,41 @@
+<mat-card>
+    <mat-table [dataSource]="drinks">
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.name }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="price">
+            <mat-header-cell *matHeaderCellDef>Price</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.price }} $</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+            <mat-header-cell *matHeaderCellDef>Description</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.description }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="productionTime">
+            <mat-header-cell *matHeaderCellDef>Production time</mat-header-cell>
+            <mat-cell *matCellDef="let drink">{{ drink.productionTime }} mins</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="manage">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let drink">
+                <button mat-icon-button color="warn" (click)="incrementQuantity(drink)">
+                    <mat-icon>add</mat-icon>
+                </button>
+                <mat-label>{{ drink.drinkQuantity }}</mat-label>
+                <button mat-icon-button color="primary" (click)="decrementQuantity(drink)">
+                    <mat-icon>remove</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
+        <mat-header-row
+            *matHeaderRowDef="['name', 'price', 'description', 'productionTime', 'manage']"></mat-header-row>
+        <mat-row
+            *matRowDef="let drink; columns: ['name', 'price', 'description', 'productionTime', 'manage']"></mat-row>
+    </mat-table>
+</mat-card>

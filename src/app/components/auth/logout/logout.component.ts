@@ -1,17 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JwtService } from '../../../services/auth/jwt.service';
-import { Router } from '@angular/router';
+import { AuthService } from '../../../services/auth/auth.service';
 
 @Component({
-  selector: 'app-logout',
-  templateUrl: './logout.component.html',
-  styleUrls: ['./logout.component.css']
+    selector: 'app-logout',
+    templateUrl: './logout.component.html',
+    styleUrls: ['./logout.component.css']
 })
-export class LogoutComponent {
 
-  constructor(private jwtService: JwtService, private router: Router) {
-    this.jwtService.logout();
-    this.router.navigate(['login']);
-  }
+export class LogoutComponent implements OnInit {
 
+    constructor(
+        private jwtService: JwtService,
+        private authService: AuthService
+    ) {}
+
+    ngOnInit(): void {
+        this.logout();
+    }
+
+    logout(): void {
+        this.authService.setLoggedState(false);
+        this.jwtService.logout();
+    }
 }

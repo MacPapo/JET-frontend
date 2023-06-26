@@ -1,8 +1,23 @@
-<mat-toolbar color="primary">
-    <span>JustEaTime</span>
-    <span class="spacer"></span>
-    <button mat-button *ngIf="isLogged == true" routerLink="/" routerLinkActive="active">Home</button>
-    <button mat-button *ngIf="isLogged == false" routerLink="/login" routerLinkActive="active">Login</button>
-    <button mat-button *ngIf="isLogged == false" routerLink="/register" routerLinkActive="active">Register</button>
-    <button mat-button *ngIf="isLogged == true" routerLink="/logout" routerLinkActive="active">Logout</button>
+<mat-toolbar color="primary" class="navbar">
+    <div routerLink="/" routerLinkActive="active">
+        JustEaTime
+    </div>
+
+    <div>
+        <button mat-raised-button *ngIf="!isLogged" routerLink="/login" routerLinkActive="active">
+            Login
+        </button>
+
+        <button mat-raised-button color="accent" *ngIf="!isLogged" routerLink="/register" routerLinkActive="active">
+            Register
+        </button>
+
+        <button mat-button *ngIf="isLogged && isAdmin" routerLink="/admin" routerLinkActive="active">
+            Control Panel
+        </button>
+
+        <button mat-raised-button color="warn" *ngIf="isLogged" routerLink="/logout" routerLinkActive="active">
+            Logout
+        </button>
+    </div>
 </mat-toolbar>
