@@ -5,47 +5,53 @@ import { BillFormComponent } from '../../bills/bill-form/bill-form.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-    selector: 'app-cashier-home',
-    templateUrl: './cashier-home.component.html',
-    styleUrls: ['./cashier-home.component.css']
+  selector: 'app-cashier-home',
+  templateUrl: './cashier-home.component.html',
+  styleUrls: ['./cashier-home.component.css']
 })
 export class CashierHomeComponent {
 
-    constructor(public dialog: MatDialog,
-        private socketService: SocketService,
-        private snackBar: MatSnackBar) {}
+  constructor(public dialog: MatDialog,
+    private socketService: SocketService,
+    private snackBar: MatSnackBar) {}
 
-    private openDialog(
-        enterAnimationDuration: string,
-        exitAnimationDuration: string
-    ) {
-        const dialogRef = this.dialog.open(BillFormComponent, {
-            width: '80%',
-            height: '70%',
-            enterAnimationDuration,
-            exitAnimationDuration,
-            data: {}
-        });
-    }
+  private openDialog(
+    enterAnimationDuration: string,
+    exitAnimationDuration: string
+  ) {
+    const dialogRef = this.dialog.open(BillFormComponent, {
+      width: '80%',
+      height: '70%',
+      enterAnimationDuration,
+      exitAnimationDuration,
+      data: {}
+    });
 
-    private openSnackBar(message: string, action: string, duration: number) {
-        this.snackBar.open(message, action, {
-            duration,
-        });
-    }
+    dialogRef.afterClosed().subscribe(result => {
+      if (result === 'Bill added') {
+        this.socketService.emit('new-bill', 'Bill added');
+      }
+    });
+  }
 
-    ngOnInit(): void {
-        this.socketService.connect();
-        this.socketService.on('cashier-bill-available', (message) => {
-            this.openSnackBar(message, 'Close', 4000);
-        });
-    }
+  private openSnackBar(message: string, action: string, duration: number) {
+    this.snackBar.open(message, action, {
+      duration,
+    });
+  }
 
-    ngOnDestroy(): void {
-        this.socketService.disconnect();
-    }
+  ngOnInit(): void {
+    this.socketService.connect();
+    this.socketService.on('cashier-bill-available', (message) => {
+      this.openSnackBar(message, 'Close', 4000);
+    });
+  }
 
-    addBill() {
-        this.openDialog('500ms', '500ms');
-    }
+  ngOnDestroy(): void {
+    this.socketService.disconnect();
+  }
+
+  addBill() {
+    this.openDialog('500ms', '500ms');
+  }
 }
